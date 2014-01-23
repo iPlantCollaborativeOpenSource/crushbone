@@ -51,6 +51,7 @@ if [ ! -f $VIRTUAL_ENV/bin/activate ]; then
 fi
 
 source $VIRTUAL_ENV/bin/activate 2>> installLogs
+pip install pip==1.4.1
 
 ################################
 # Setup M2CryptoConfiguration
@@ -131,7 +132,7 @@ python manage.py collectstatic 2>> installLogs
 ################################
 # Setup Apache Configuration
 ################################
-SERVERNAME="vm64-14.iplantc.org"
+SERVERNAME="vm64-15.iplantc.org"
 
 ##This must match the key word in /extras/apache/atmo.conf.dist
 MYHOSTNAMEHERE="MYHOSTNAMEHERE"
