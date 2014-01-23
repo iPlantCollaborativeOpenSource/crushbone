@@ -5,7 +5,7 @@
 ################################
 
 apt-get install -y python-pip postgresql-9.1 postgresql-server-dev-9.1 libpq-dev python-dev libldap2-dev libsasl2-dev python-m2crypto swig redis-server libssl-dev git > installLogs
-hash -r
+sleep 3
 pip install --upgrade pip 
 
 echo -e "\n" >> installLogs
@@ -43,11 +43,10 @@ sh setuptools-0.6c11-py2.7.egg 2>> installLogs
 #variables
 VIRTUAL_ENV="/opt/env/atmo"
 
-pip install virtualenv 2>> installLogs
 pip install --upgrade virtualenv 2>> installLogs
 
 mkdir -p $VIRTUAL_ENV
-if [ -f $VIRTUAL_ENV/bin/activate ]; then
+if [ ! -f $VIRTUAL_ENV/bin/activate ]; then
    virtualenv $VIRTUAL_ENV 2>> installLogs
 fi
 
@@ -159,7 +158,7 @@ a2ensite atmo.conf auth_cas.conf shell.conf leaderboard.conf 2>> installLogs
 chown www-data:www-data $LOCATIONOFATMOSPHERE/logs/atmosphere.log 2>> installLogs
 chown www-data:www-data $LOCATIONOFATMOSPHERE/resources/ 2>> installLogs
 
-SERVERNAME="vm142-46.iplantc.org"
+SERVERNAME="vm64-15.iplantc.org"
 echo "ServerName $SERVERNAME" >> /etc/apache2/apache2.conf 
 
 ################################
