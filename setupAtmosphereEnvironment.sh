@@ -5,6 +5,7 @@
 ################################
 
 apt-get install -y python-pip postgresql-9.1 postgresql-server-dev-9.1 libpq-dev python-dev libldap2-dev libsasl2-dev python-m2crypto swig redis-server libssl-dev git > installLogs
+hash -r
 pip install --upgrade pip 
 
 echo -e "\n" >> installLogs
@@ -131,7 +132,7 @@ python manage.py collectstatic 2>> installLogs
 ################################
 # Setup Apache Configuration
 ################################
-SERVERNAME="vm142-46.iplantc.org"
+SERVERNAME="vm64-14.iplantc.org"
 
 ##This must match the key word in /extras/apache/atmo.conf.dist
 MYHOSTNAMEHERE="MYHOSTNAMEHERE"
@@ -165,6 +166,25 @@ echo "ServerName $SERVERNAME" >> /etc/apache2/apache2.conf
 # Setup SSL Configuration
 ################################
 
+INITIALINSTALLDIRECTORY="/root"
+NAMEOFYOURCERTIFICATE="iplantc.org.crt"
+NAMEOFYOURKEY="iplantc.key"
+NAMEOFYOURBUNDLEKEY="gd_bundle.crt"
+
+## Text to be added to atmo.conf regarding setting up ssl
+
+if [ -f $INITIALINSTALLDIRECTORY/$NAMEOFYOURCERTIFICATE ] && [ -f $INITIALINSTALLDIRECTORY/$NAMEOFYOURBUNDLEKEY ] && [ -f $INITIALINSTALLDIRECTORY/$NAMEOFYOURKEY ]; then
+   cp $INITIALINSTALLDIRECTORY/$NAMEOFYOURCERTIFICATE /etc/ssl/certs/ 2>> installLogs
+   cp $INITIALINSTALLDIRECTORY/$NAMEOFYOURBUNDLEKEY /etc/ssl/certs/ 2>> installLogs
+   cp $INITIALINSTALLDIRECTORY/$NAMEOFYOURKEY /etc/ssl/private/ 2>> installLogs
+
+   sed -i "|$SSLTEXT|a\ $SSLATMOCONFMATCH|" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
+   echo "Text Replace" >> installLogs
+else
+    echo "IMPORTANT: PLESE NOTE" >> installLogs
+    echo "Either your certificates are incorrect, missing, or you have none" >> installLogs
+fi
+
 
 
 ################################
@@ -186,4 +206,4 @@ fi
 # Run Atmosphere!
 ################################
 
-#service apache2 restart
+service apache2 restart
