@@ -47,11 +47,11 @@ pip install virtualenv 2>> installLogs
 pip install --upgrade virtualenv 2>> installLogs
 
 mkdir -p $VIRTUAL_ENV
-if [ -d $VIRTUAL_ENV ]; then
+if [ -f $VIRTUAL_ENV/bin/activate ]; then
    virtualenv $VIRTUAL_ENV 2>> installLogs
 fi
 
-source /opt/env/atmo/bin/activate 2>> installLogs
+source $VIRTUAL_ENV/bin/activate 2>> installLogs
 
 ################################
 # Setup M2CryptoConfiguration
