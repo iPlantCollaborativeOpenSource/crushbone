@@ -167,18 +167,20 @@ echo "ServerName $SERVERNAME" >> /etc/apache2/apache2.conf
 ################################
 
 INITIALINSTALLDIRECTORY="/root"
-NAMEOFYOURCERTIFICATE="iplantc.org.crt"
-NAMEOFYOURKEY="iplantc.key"
-NAMEOFYOURBUNDLEKEY="gd_bundle.crt"
+NAMEOFYOURSSLCERTIFICATE="iplantc.org.crt"
+NAMEOFYOURSSLKEY="iplantc.key"
+NAMEOFYOURSSLBUNDLECERTIFICATE="gd_bundle.crt"
 
 ## Text to be added to atmo.conf regarding setting up ssl
 
-if [ -f $INITIALINSTALLDIRECTORY/$NAMEOFYOURCERTIFICATE ] && [ -f $INITIALINSTALLDIRECTORY/$NAMEOFYOURBUNDLEKEY ] && [ -f $INITIALINSTALLDIRECTORY/$NAMEOFYOURKEY ]; then
-   cp $INITIALINSTALLDIRECTORY/$NAMEOFYOURCERTIFICATE /etc/ssl/certs/ 2>> installLogs
-   cp $INITIALINSTALLDIRECTORY/$NAMEOFYOURBUNDLEKEY /etc/ssl/certs/ 2>> installLogs
-   cp $INITIALINSTALLDIRECTORY/$NAMEOFYOURKEY /etc/ssl/private/ 2>> installLogs
+if [ -f $INITIALINSTALLDIRECTORY/$NAMEOFYOURSSLCERTIFICATE ] && [ -f $INITIALINSTALLDIRECTORY/$NAMEOFYOURSSLBUNDLECERTIFICATE ] && [ -f $INITIALINSTALLDIRECTORY/$NAMEOFYOURSSLKEY ]; then
+   cp "$INITIALINSTALLDIRECTORY/$NAMEOFYOURSSLCERTIFICATE" /etc/ssl/certs/ 2>> installLogs
+   cp "$INITIALINSTALLDIRECTORY/$NAMEOFYOURSSLBUNDLECERTIFICATE" /etc/ssl/certs/ 2>> installLogs
+   cp "$INITIALINSTALLDIRECTORY/$NAMEOFYOURSSLKEY" /etc/ssl/private/ 2>> installLogs
 
-   sed -i "|$SSLTEXT|a\ $SSLATMOCONFMATCH|" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
+   sed -i "s/BASECERTHERE/$NAMEOFYOURSSLCERTIFICATE/g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
+   sed -i "s/KEYHERE/$NAMEOFYOURSSLKEY/g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
+   sed -i "s/BUNDLECERTHERE/$NAMEOFYOURSSLBUNDLECERTIFICATE/g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
    echo "Text Replace" >> installLogs
 else
     echo "IMPORTANT: PLESE NOTE" >> installLogs
