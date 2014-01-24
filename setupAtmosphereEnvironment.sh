@@ -22,7 +22,7 @@ DBPASSWORD=atmosphere
 service postgresql restart
 su postgres -c 'cd ~' 2>> installLogs
 su postgres -c 'psql -c "CREATE DATABASE '$DBNAME';"' 2>> installLogs
-su postgres -c 'psql -c "CREATE USER '$DBUSER' WITH PASSWORD '\'''$DBPASSWORD''\'' NOSUPERUSER NOCREATEROLE NOCREATEDB;"' 2>> installLogs
+su postgres -c 'psql -c "CREATE USER '$DBUSER' WITH PASSWORD '\'''$DBPASSWORD''\'' NOSUPERUSER CREATEROLE CREATEDB;"' 2>> installLogs
 su postgres -c 'psql -c "REVOKE connect ON DATABASE '$DBNAME' FROM PUBLIC;"' 2>> installLogs
 su postgres -c 'psql -c "GRANT connect ON DATABASE '$DBNAME' TO '$DBUSER';"' 2>> installLogs
 echo -e "local   all             atmo_app                                md5" >> /etc/postgresql/9.1/main/pg_hba.conf
@@ -78,6 +78,23 @@ if [ -f $LOCATIONOFSETUPFILE/local.py ]; then
    cp $LOCATIONOFSETUPFILE/local.py atmosphere/settings/local.py 2>> installLogs
 else
    cp atmosphere/settings/local.py.dist atmosphere/settings/local.py 2>> installLogs
+   SETTINGSNAME='"NAME": ""'
+   NEWSETTINGSNAME="\"NAME\": \"$DBNAME\""
+   SETTINGSUSER='"USER": ""'
+   NEWSETTINGSUSER="\"USER\": \"$DBUSER\""
+   SETTINGSPASSWORD='"PASSWORD": ""'
+   NEWSETTINGSPASSWORD="\"PASSWORD\": \"$DBPASSWORD\""
+   SETTINGSHOST='"HOST": ""'
+   NEWSETTINGSHOST="\"HOST\": \"localhost\""
+   SETTINGSPORT='"PORT": ""'
+   NEWSETTINGSPORT="\"PORT\": \"5432\""
+
+   ### Search and replace
+   sed -i "s/$SETTINGSNAME/$NEWSETTINGSNAME/g" atmosphere/settings/local.py 2>> installLogs
+   sed -i "s/$SETTINGSUSER/$NEWSETTINGSUSER/g" atmosphere/settings/local.py 2>> installLogs
+   sed -i "s/$SETTINGSPASSWORD/$NEWSETTINGSPASSWORD/g" atmosphere/settings/local.py 2>> installLogs
+   sed -i "s/$SETTINGSHOST/$NEWSETTINGSHOST/g" atmosphere/settings/local.py 2>> installLogs
+   sed -i "s/$SETTINGSPORT/$NEWSETTINGSPORT/g" atmosphere/settings/local.py 2>> installLogs
 fi
 
 if [ -f $LOCATIONOFSETUPFILE/secrets.py ]; then
