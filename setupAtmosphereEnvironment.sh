@@ -4,6 +4,8 @@
 # Install initial prequisites
 ################################
 
+source ./variables.sh
+
 apt-get install -y python-pip postgresql-9.1 postgresql-server-dev-9.1 libpq-dev python-dev libldap2-dev libsasl2-dev python-m2crypto swig redis-server libssl-dev git > installLogs
 sleep 3
 pip install --upgrade pip 
@@ -13,11 +15,6 @@ echo -e "\n" >> installLogs
 ################################
 # Setup Postgres
 ################################
-
-#variables
-DBNAME=atmosphere
-DBUSER=atmo_app
-DBPASSWORD=atmosphere
 
 service postgresql restart
 su postgres -c 'cd ~' 2>> installLogs
@@ -39,9 +36,6 @@ sh setuptools-0.6c11-py2.7.egg 2>> installLogs
 ################################
 # Setup Virtualenv
 ################################
-
-#variables
-VIRTUAL_ENV="/opt/env/atmo"
 
 pip install --upgrade virtualenv 2>> installLogs
 
@@ -66,10 +60,6 @@ fi
 ################################
 # Setup Project
 ################################
-LOCATIONOFATMOSPHERE="/opt/dev/atmosphere"
-LOCATIONOFLOGS="logs"
-
-LOCATIONOFSETUPFILE="/root"
 
 git clone https://github.com/iPlantCollaborativeOpenSource/atmosphere.git $LOCATIONOFATMOSPHERE
 cd $LOCATIONOFATMOSPHERE
@@ -149,7 +139,6 @@ python manage.py collectstatic 2>> installLogs
 ################################
 # Setup Apache Configuration
 ################################
-SERVERNAME="vm64-15.iplantc.org"
 
 ##This must match the key word in /extras/apache/atmo.conf.dist
 MYHOSTNAMEHERE="MYHOSTNAMEHERE"
@@ -176,17 +165,12 @@ a2ensite atmo.conf auth_cas.conf shell.conf leaderboard.conf 2>> installLogs
 chown www-data:www-data $LOCATIONOFATMOSPHERE/logs/atmosphere.log 2>> installLogs
 chown www-data:www-data $LOCATIONOFATMOSPHERE/resources/ 2>> installLogs
 
-SERVERNAME="vm64-15.iplantc.org"
 echo "ServerName $SERVERNAME" >> /etc/apache2/apache2.conf 
 
 ################################
 # Setup SSL Configuration
 ################################
 
-INITIALINSTALLDIRECTORY="/root"
-NAMEOFYOURSSLCERTIFICATE="iplantc.org.crt"
-NAMEOFYOURSSLKEY="iplantc.key"
-NAMEOFYOURSSLBUNDLECERTIFICATE="gd_bundle.crt"
 
 ## Text to be added to atmo.conf regarding setting up ssl
 
@@ -209,7 +193,6 @@ fi
 ################################
 # Setup SSH Keys
 ################################
-LOCATIONOFPERSONALKEYS="~/.ssh"
 LOCATIONOFATMOSPHEREEXTRAKEYS="$LOCATIONOFATMOSPHERE/extras/ssh"
 
 mkdir -p $LOCATIONOFATMOSPHEREEXTRAKEYS
