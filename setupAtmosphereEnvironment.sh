@@ -4,7 +4,7 @@
 # Install initial prequisites
 ################################
 
-source ./variables.sh
+source ./configurationVariables.sh
 
 apt-get install -y python-pip postgresql-9.1 postgresql-server-dev-9.1 libpq-dev python-dev libldap2-dev libsasl2-dev python-m2crypto swig redis-server libssl-dev git > installLogs
 sleep 3
