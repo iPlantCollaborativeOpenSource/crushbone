@@ -151,6 +151,7 @@ cp $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf.dist $LOCATIONOFATMOSPHERE/extr
 
 # change url references in atmo.conf
 
+sed -i "s|VIRTUALENVHERE|$VIRTUAL_ENV|g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
 sed -i "s/$MYHOSTNAMEHERE/$SERVERNAME/g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
 sed -i "s|$LOCATIONOFATMOSPHEREHERE|$LOCATIONOFATMOSPHERE|g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
 
