@@ -155,6 +155,17 @@ sed -i "s|VIRTUALENVHERE|$VIRTUAL_ENV|g" $LOCATIONOFATMOSPHERE/extras/apache/atm
 sed -i "s/$MYHOSTNAMEHERE/$SERVERNAME/g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
 sed -i "s|$LOCATIONOFATMOSPHEREHERE|$LOCATIONOFATMOSPHERE|g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
 
+#Assuming this is not a production box, turn off rewrite rules
+
+RewriteCond="RewriteCond"
+ToggleOffRewriteCond="#$RewriteCond"
+RewriteRule="RewriteRule"
+ToggleOffRewriteRule="#$RewriteRule"
+
+sed -i "s/$RewriteCond/$ToggleOffRewriteCond/g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
+sed -i "s/$RewriteRule/$ToggleOffRewriteRule/g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
+
+
 ln -s $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf /etc/apache2/sites-available/atmo.conf
 ln -s $LOCATIONOFATMOSPHERE/extras/apache/auth_cas.conf /etc/apache2/sites-available/auth_cas.conf
 ln -s $LOCATIONOFATMOSPHERE/extras/apache/shell.conf /etc/apache2/sites-available/shell.conf
