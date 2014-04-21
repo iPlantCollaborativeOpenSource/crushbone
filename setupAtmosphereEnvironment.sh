@@ -6,7 +6,9 @@
 
 source ./configurationVariables.sh
 
-apt-get install -y python-pip postgresql-9.1 postgresql-server-dev-9.1 libpq-dev python-dev libldap2-dev libsasl2-dev python-m2crypto swig redis-server libssl-dev git nodejs > installLogs
+add-apt-repository -y ppa:chris-lea/node.js
+apt-get update
+apt-get install -y python-pip python-software-properties python g++ make postgresql-9.1 postgresql-server-dev-9.1 libpq-dev python-dev libldap2-dev libsasl2-dev python-m2crypto swig redis-server libssl-dev git nodejs > installLogs
 sleep 3
 pip install --upgrade pip 
 
@@ -46,12 +48,6 @@ fi
 
 source $VIRTUAL_ENV/bin/activate 2>> installLogs
 pip install pip==1.4.1
-
-################################
-# Setup npm
-###############################
-curl https://www.npmjs.org/install.sh | sh 2>> installLogs
-npm install -g uglify-js 2>> installLogs
 
 ################################
 # Setup M2CryptoConfiguration
