@@ -38,7 +38,7 @@ sh setuptools-0.6c11-py2.7.egg 2>> installLogs
 ################################
 # Setup Virtualenv
 ################################
-
+which pip
 pip install --upgrade virtualenv 2>> installLogs
 
 mkdir -p $VIRTUAL_ENV
