@@ -1,5 +1,5 @@
 #!/bin/bash -x
-
+set -e
 ################################
 # Install initial prequisites
 ################################
@@ -44,19 +44,19 @@ sh setuptools-0.6c11-py2.7.egg 2>> installLogs
 which pip
 pip install --upgrade virtualenv 2>> installLogs
 
-mkdir -p $VIRTUAL_ENV
-if [ ! -f $VIRTUAL_ENV/bin/activate ]; then
-   virtualenv $VIRTUAL_ENV 2>> installLogs
+mkdir -p $VIRTUAL_ENV_ATMOSPHERE
+if [ ! -f $VIRTUAL_ENV_ATMOSPHERE/bin/activate ]; then
+   virtualenv $VIRTUAL_ENV_ATMOSPHERE 2>> installLogs
 fi
 
-source $VIRTUAL_ENV/bin/activate 2>> installLogs
+source $VIRTUAL_ENV_ATMOSPHERE/bin/activate 2>> installLogs
 pip install pip==1.4.1
 
 ################################
 # Setup M2CryptoConfiguration
 ################################
 
-m2crypto_loc=$VIRTUAL_ENV/lib/python2.7/site-packages/M2Crypto
+m2crypto_loc=$VIRTUAL_ENV_ATMOSPHERE/lib/python2.7/site-packages/M2Crypto
 if [ ! -L $m2crypto_loc ]; then
     sudo ln -s /usr/lib/python2.7/dist-packages/M2Crypto $m2crypto_loc 2>> installLogs
 fi
@@ -115,7 +115,7 @@ fi
 # "sys.path.insert(1, root_dir)"
 
 insertBeforeThisLine="sys.path.insert(1, root_dir)"
-insertNewLine="sys.path.insert(0, '$VIRTUAL_ENV/lib/python2.7/site-packages/')"
+insertNewLine="sys.path.insert(0, '$VIRTUAL_ENV_ATMOSPHERE/lib/python2.7/site-packages/')"
 
 sed -i "/.*$insertBeforeThisLine.*/i$insertNewLine" atmosphere/wsgi.py 2>> installLogs
 
@@ -141,6 +141,12 @@ export DJANGO_SETTINGS_MODULE='atmosphere.settings'
 python manage.py createcachetable atmosphere_cache_requests 2>> installLogs
 python manage.py collectstatic 2>> installLogs
 
+
+#################################
+# Deactivate from atmosphere's virtualenv
+################################
+deactivate
+
 ################################
 # Setup Apache Configuration
 ################################
@@ -148,6 +154,7 @@ python manage.py collectstatic 2>> installLogs
 ##This must match the key word in /extras/apache/atmo.conf.dist
 MYHOSTNAMEHERE="MYHOSTNAMEHERE"
 LOCATIONOFATMOSPHEREHERE="LOCATIONOFATMOSPHEREHERE"
+LOCATIONOFTROPOSPHEREHERE="LOCATIONOFTROPOSPHERE"
 
 apt-get install -y apache2 libapache2-mod-auth-cas libapache2-mod-wsgi 2>> installLogs
 a2enmod rewrite ssl proxy proxy_http auth_cas wsgi 2>> installLogs
@@ -156,9 +163,12 @@ cp $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf.dist $LOCATIONOFATMOSPHERE/extr
 
 # change url references in atmo.conf
 
-sed -i "s|VIRTUALENVHERE|$VIRTUAL_ENV|g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
+sed -i "s|VIRTUAL_ENV_ATMOSPHERE|$VIRTUAL_ENV_ATMOSPHERE|g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
+sed -i "s|VIRTUAL_ENV_TROPOSHERE|$VIRTUAL_ENV_TROPOSHERE|g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
+
 sed -i "s/$MYHOSTNAMEHERE/$SERVERNAME/g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
 sed -i "s|$LOCATIONOFATMOSPHEREHERE|$LOCATIONOFATMOSPHERE|g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
+sed -i "s|$LOCATIONOFTROPOSPHEREHERE|$LOCATIONOFTROPOSPHERE|g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> installLogs
 
 #Assuming this is not a production box, turn off rewrite rules
 
@@ -226,3 +236,34 @@ fi
 ################################
 
 service apache2 restart
+
+################################
+# Setup troposphere
+################################
+mkdir -p $VIRTUAL_ENV_TROPOSHERE
+if [ ! -f $VIRTUAL_ENV_TROPOSHERE/bin/activate ]; then
+   virtualenv $VIRTUAL_ENV_TROPOSHERE 2>> installLogs
+fi
+
+source $VIRTUAL_ENV_TROPOSHERE/bin/activate 2>> installLogs
+
+
+################################
+# Setup Troposphere Project
+################################
+
+git clone https://github.com/iPlantCollaborativeOpenSource/troposphere.git $LOCATIONOFTROPOSPHERE
+cd $LOCATIONOFTROPOSPHERE
+pip install --upgrade pip
+pip install -r requirements.txt
+npm update npm -g
+npm install 
+gem install sass
+
+cp troposphere/settings/local.py.dist troposphere/settings/local.py
+
+#Build stuff with glup
+gulp
+
+
+echo "Edit local.py with your own settings. You'll have to generate a new keypair from Groupy for the Troposphere application.\n The configuration variable OAUTH_PRIVATE_KEY_PATH should refer to the absolute path of that key."
