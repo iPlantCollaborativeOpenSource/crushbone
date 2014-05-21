@@ -257,6 +257,7 @@ cd $LOCATIONOFTROPOSPHERE
 pip install --upgrade pip
 pip install -r requirements.txt
 npm update npm -g
+npm install gulp -g
 npm install 
 gem install sass
 
