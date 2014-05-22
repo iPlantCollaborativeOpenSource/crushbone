@@ -1,7 +1,7 @@
 #!/bin/bash -x
 
 # TODO Be sure to change this!
-SERVERNAME="128.196.64.169"
+SERVERNAME="SERVERNAMEHERE"
 
 #Variables for Postgres. Recommended names
 DBNAME=atmo_prod
@@ -21,11 +21,11 @@ VIRTUAL_ENV_TROPOSHERE="/opt/env/troposphere"
 
 #Variables for configuration
 #This specifies the location of configuration files(e.g. local.py, secrets.py, testing.py)
-LOCATIONOFSETUPFILE="/root/to_andre"
+LOCATIONOFSETUPFILE="/root"
 
 #Variables for SSL Configuration
 
-INITIALINSTALLDIRECTORY="~/to_andre"
+INITIALINSTALLDIRECTORY="/root/to_andre"
 NAMEOFYOURSSLCERTIFICATE="iplantc.org.crt"
 NAMEOFYOURSSLKEY="iplantc.key"
 NAMEOFYOURSSLBUNDLECERTIFICATE="gd_bundle.crt"
