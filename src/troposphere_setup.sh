@@ -7,6 +7,13 @@
 git clone https://github.com/iPlantCollaborativeOpenSource/troposphere.git $LOCATIONOFTROPOSPHERE
 pip install --upgrade pip 2>> install.log
 pip install -r $LOCATIONOFTROPOSPHERE/requirements.txt 2>> install.log
+
+if [ -e $LOCATIONOFTROPOSPHERELOCALFILE/local.py ]; then
+  cp $LOCATIONOFTROPOSPHERELOCALFILE/local.py $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py 2>> install.log;
+else
+  cp $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py.dist $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py
+fi
+
 npm update npm -g 2>> install.log
 npm install gulp -g 2>> install.log
 gem install sass 2>> install.log
