@@ -25,13 +25,13 @@ LOCATIONOFSETUPFILE="/root"
 
 #Variables for SSL Configuration
 
-INITIALINSTALLDIRECTORY="/root/to_andre"
+INITIALINSTALLDIRECTORY="/root"
 NAMEOFYOURSSLCERTIFICATE="iplantc.org.crt"
 NAMEOFYOURSSLKEY="iplantc.key"
 NAMEOFYOURSSLBUNDLECERTIFICATE="gd_bundle.crt"
 
 #Variables for SSH Key Configuration
 
-LOCATIONOFPERSONALKEYS="~/.ssh"
+LOCATIONOFPERSONALKEYS="/root/.ssh"
 
 
