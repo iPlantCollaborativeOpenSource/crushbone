@@ -21,7 +21,7 @@ gem install sass 2>> install.log
 BASEDIRECTORY=`pwd`
 cd $LOCATIONOFTROPOSPHERE
 npm install 2>> install.log
-bower install --allow-root 2>> install.log
+bower install --allow-root --config.interactive=false 2>> install.log
 #Build stuff with glup
 gulp 2>> install.log
 chown -R www-data:www-data troposphere/assets
