@@ -16,13 +16,16 @@ fi
 
 npm update npm -g 2>> install.log
 npm install gulp -g 2>> install.log
+npm install bower -g 2>> install.log
 gem install sass 2>> install.log
 BASEDIRECTORY=`pwd`
 cd $LOCATIONOFTROPOSPHERE
 npm install 2>> install.log
-
+bower install --allow-root 2>> install.log
 #Build stuff with glup
 gulp 2>> install.log
+chown -R www-data:www-data troposphere/assets
+service apache2 restart
 cd $BASEDIRECTORY
 
 echo "Edit $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py with your own settings. You'll have to generate a new keypair from Groupy for the Troposphere application.\n The configuration variable OAUTH_PRIVATE_KEY_PATH should refer to the absolute path of that key."
