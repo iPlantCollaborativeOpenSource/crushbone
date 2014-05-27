@@ -52,3 +52,6 @@ insertNewLine="sys.path.insert(0, '$VIRTUAL_ENV_ATMOSPHERE/lib/python2.7/site-pa
 
 sed -i "/.*$insertBeforeThisLine.*/i$insertNewLine" $LOCATIONOFATMOSPHERE/atmosphere/wsgi.py 2>> install.log
 
+##This must match the key word in atmosphere/settings/__init__.py
+MYHOSTNAMEHERE="MYHOSTNAMEHERE"
+sed -i "s/$MYHOSTNAMEHERE/$SERVERNAME/g" $LOCATIONOFATMOSPHERE/atmosphere/settings/__init__.py 2>> install.log
