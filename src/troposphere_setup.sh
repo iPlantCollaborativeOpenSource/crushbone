@@ -14,6 +14,12 @@ else
   cp $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py.dist $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py
 fi
 
+if [ -e $LOCATIONOFTROPOSPHEREKEY/troposhere.key ]; then
+  cp $LOCATIONOFTROPOSPHEREKEY/troposhere.key $LOCATIONOFTROPOSPHERE 2>> install.log;
+else
+  echo "Need to generate a groupy key and place it in the $LOCATIONOFTROPOSPHERE directory." 2>> install.log;
+fi
+
 npm update npm -g 2>> install.log
 npm install gulp -g 2>> install.log
 npm install bower -g 2>> install.log
