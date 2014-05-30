@@ -55,3 +55,5 @@ sed -i "/.*$insertBeforeThisLine.*/i$insertNewLine" $LOCATIONOFATMOSPHERE/atmosp
 ##This must match the key word in atmosphere/settings/__init__.py
 MYHOSTNAMEHERE="MYHOSTNAMEHERE"
 sed -i "s/$MYHOSTNAMEHERE/$SERVERNAME/g" $LOCATIONOFATMOSPHERE/atmosphere/settings/__init__.py 2>> install.log
+
+chown -R www-data:core-services $LOCATIONOFATMOSPHERE
