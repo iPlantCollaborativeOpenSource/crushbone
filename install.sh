@@ -29,8 +29,25 @@ _swap_variables() {
     server_name=${server_name:-${SERVERNAME:-"localhost"}}
     working_dir=${working_dir:-${WORKSPACE:-"/opt/dev"}}
     virtualenv_dir=${virtualenv_dir:-${VIRTUALENV:-"/opt/env"}}
+
+    setup_files_dir=${setup_files_dir:-${LOCATIONOFSETUPFILE:-"/root"}}
+    ssh_key_dir=${ssh_key_dir:-${SSH_KEY_DIR:-"/root"}}
 }
 
+_derived_variables() {
+    #Variables for Atmosphere
+    atmo_working_dir="$working_dir/atmosphere"
+    atmo_logs_dir="$atmo_working_dir/logs"
+    atmo_virtualenv="$virtualenv_dir/atmo"
+    atmo_files_dir="$setup_files_dir"
+
+    tropo_working_dir="$working_dir/troposphere"
+    tropo_logs_dir="$working_dir/logs"
+    tropo_virtualnev="$virtualenv_dir/troposphere"
+    tropo_files_dir="$setup_files_dir"
+
+    ssh_keys_storage_dir="$ssh_key_dir/.ssh"
+}
 main() {
 
     Options=$@
@@ -50,19 +67,21 @@ main() {
     branch_name=""
     working_dir=""
     virtualenv_dir=""
+    ssh_key_dir=""
+    setup_files_dir=""
     server_name=""
     
     ## Collect command line vars
     while getopts ':atT-b:D:E:s:' OPTION ; do
       case "$OPTION" in
-        a  ) atmo_only=true           ;;
-        b  ) branch_name="$OPTARG"    ;;
-        D  ) working_dir="$OPTARG"    ;;
-        E  ) virtualenv_dir="$OPTARG" ;;
-        h  ) _usage                   ;;   
-        s  ) server_name="$OPTARG"    ;;
-        t  ) tropo_only=true          ;;
-        T  ) test_only=true           ;;
+        a  ) atmo_only=true            ;;
+        b  ) branch_name="$OPTARG"     ;;
+        D  ) working_dir="$OPTARG"     ;;
+        E  ) virtualenv_dir="$OPTARG"  ;;
+        h  ) _usage                    ;;   
+        s  ) server_name="$OPTARG"     ;;
+        t  ) tropo_only=true           ;;
+        T  ) test_only=true            ;;
         -  ) [ $OPTIND -ge 1 ] && optind=$(expr $OPTIND - 1 ) || optind=$OPTIND
              eval OPTION="\$$optind"
              OPTARG=$(echo $OPTION | cut -d'=' -f2)
@@ -71,6 +90,8 @@ main() {
                  --atmosphere_only ) atmosphere_only=true    ;;
                  --branch ) branch_name="$OPTARG"            ;; 
                  --working_dir ) working_dir="$OPTARG"       ;; 
+                 --ssh_key_dir ) ssh_key_dir="$OPTARG"       ;; 
+                 --setup_files_dir ) setup_files_dir="$OPTARG"       ;; 
                  --virtualenv ) virtualenv_dir="$OPTARG"     ;; 
                  --help ) _usage                             ;;
                  --server_name ) server_name="$OPTARG"       ;; 
