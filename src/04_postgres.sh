@@ -39,7 +39,6 @@ main(){
 
 if [ "$#" -ne 3 ]; then
   echo "Illegal number of parameters" 2> $output_for_logs
-  echo "Required Arguments" 2>> $output_for_logs
   exit -1
 else
   main $@

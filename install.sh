@@ -119,6 +119,7 @@ main() {
     done
     echo $branch_name
     _swap_variables
+    _derived_variables
     echo $branch_name
     
     echo "---------------------------------------------------"
@@ -141,8 +142,8 @@ run_steps() {
     ./src/02_dependencies.sh
     ./src/03_pip_install.sh
     ./src/04_postgres.sh $db_name $db_user $db_pass
-    #. src/05_setuptools.sh
-    #. src/06_atmo_virtual_env.sh
+    ./src/05_setuptools.sh
+    ./src/06_atmo_virtual_env.sh $atmo_virtualenv
     #. src/07_m2cryptoconfiguration.sh
     #. src/08_atmo_git_clone.sh
     #. src/pip_install_atmo_requirements.sh
