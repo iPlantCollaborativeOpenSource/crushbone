@@ -1,10 +1,10 @@
 #!/bin/bash -x
 
-
+mkdir logs
 . src/01_configurationVariables.sh
 . src/02_dependencies.sh
 . src/03_pip_install.sh
-#. src/postgres.sh
+. src/04_postgres.sh
 #. src/setuptools.sh
 #. src/atmo_virtual_env.sh
 #. src/m2cryptoconfiguration.sh
