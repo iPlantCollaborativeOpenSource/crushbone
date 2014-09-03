@@ -80,21 +80,21 @@ exit 0
 
 ## Override them with arguments
 
-#mkdir logs
-#. src/01_configurationVariables.sh
-#. src/02_dependencies.sh
-#. src/03_pip_install.sh
-#. src/04_postgres.sh
-#. src/05_setuptools.sh
-#. src/06_atmo_virtual_env.sh
-##. src/m2cryptoconfiguration.sh
-##. src/atmo_setup.sh
-##. src/pip_install_atmo_requirements.sh
-##. src/atmo_python_db_migrations.sh
-##. src/atmo_virtual_env_deactivate.sh
-##. src/apache_configuration.sh
-##. src/ssl_configuration.sh
-##. src/ssh_keys.sh
-##. src/start_atmosphere.sh
-##. src/troposphere_virtual_env.sh
-##. src/troposphere_setup.sh
+mkdir logs
+. src/01_configurationVariables.sh
+. src/02_dependencies.sh
+. src/03_pip_install.sh
+. src/04_postgres.sh
+. src/05_setuptools.sh
+. src/06_atmo_virtual_env.sh
+. src/07_m2cryptoconfiguration.sh
+. src/08_atmo_git_clone.sh
+#. src/pip_install_atmo_requirements.sh
+#. src/atmo_python_db_migrations.sh
+#. src/atmo_virtual_env_deactivate.sh
+#. src/apache_configuration.sh
+#. src/ssl_configuration.sh
+#. src/ssh_keys.sh
+#. src/start_atmosphere.sh
+#. src/troposphere_virtual_env.sh
+#. src/troposphere_setup.sh
