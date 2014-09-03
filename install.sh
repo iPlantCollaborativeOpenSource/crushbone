@@ -7,7 +7,7 @@ mkdir logs
 . src/04_postgres.sh
 . src/05_setuptools.sh
 . src/06_atmo_virtual_env.sh
-#. src/m2cryptoconfiguration.sh
+. src/07_m2cryptoconfiguration.sh
 #. src/atmo_setup.sh
 #. src/pip_install_atmo_requirements.sh
 #. src/atmo_python_db_migrations.sh
