@@ -144,8 +144,7 @@ run_steps() {
     ./src/04_postgres.sh $db_name $db_user $db_pass
     ./src/05_setuptools.sh
     ./src/06_atmo_virtual_env.sh $atmo_virtualenv
-    #. src/07_m2cryptoconfiguration.sh
-    #. src/08_atmo_git_clone.sh
+    ./src/07_atmo_git_clone.sh $atmo_working_dir $branch_name
     #. src/pip_install_atmo_requirements.sh
     #. src/atmo_python_db_migrations.sh
     #. src/atmo_virtual_env_deactivate.sh
