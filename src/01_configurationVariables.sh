@@ -4,7 +4,8 @@
 SERVERNAME="SERVERNAMEHERE"
 
 #BRANCH NAME
-BRANCH_NAME="master"
+# This is allowed to be blank, or you can specify a branch and crushbone will pull it down
+BRANCH_NAME=""
 
 #Variables for Postgres. Recommended names
 DBNAME=atmo_prod

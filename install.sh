@@ -8,7 +8,7 @@ mkdir logs
 . src/05_setuptools.sh
 . src/06_atmo_virtual_env.sh
 . src/07_m2cryptoconfiguration.sh
-#. src/atmo_setup.sh
+. src/08_atmo_git_clone.sh
 #. src/pip_install_atmo_requirements.sh
 #. src/atmo_python_db_migrations.sh
 #. src/atmo_virtual_env_deactivate.sh
