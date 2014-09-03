@@ -12,8 +12,13 @@ echo "               -T   --test             Execute crushbone in 'test' mode. U
 echo ""
 echo "               -b   --branch=          Override git branch name in configuration file"
 echo "               -D   --working_dir=     Override source code dir in configuration file"
-echo "               -E   --virtualenv=     Override environment dir in configuration file"
+echo "               -E   --virtualenv=      Override environment dir in configuration file"
 echo "               -s   --server_name=     Override server name in configuration file"
+echo "               --setup_files_dir=      Set the directory containing setup files"
+echo "               --ssh_key_dir=          Set the directory containing ssh key-related files"
+echo "               --db_name=              Set the database name to be used on installation"
+echo "               --db_user=              Set the database user to be used on installation" 
+echo "               --db_pass=              Set the database password to be used on installation"
 echo ""
 if [ "$1" != "" ]; then
 echo "USAGE ERROR: $1"
@@ -24,6 +29,10 @@ _swap_variables() {
     atmo_only=${atmo_only:-false}
     tropo_only=${tropo_only:-false}
     test_only=${test_only:-false}
+
+    db_name=${db_name:-${DBNAME:-"atmo_prod"}}
+    db_user=${db_user:-${DBUSER:-"atmo_app"}}
+    db_pass=${db_pass:-${DBPASS:-"atmosphere"}}
 
     branch_name=${branch_name:-${BRANCH_NAME:-"master"}}
     server_name=${server_name:-${SERVERNAME:-"localhost"}}
@@ -87,16 +96,19 @@ main() {
              OPTARG=$(echo $OPTION | cut -d'=' -f2)
              OPTION=$(echo $OPTION | cut -d'=' -f1)
              case $OPTION in
-                 --atmosphere_only ) atmosphere_only=true    ;;
-                 --branch ) branch_name="$OPTARG"            ;; 
-                 --working_dir ) working_dir="$OPTARG"       ;; 
-                 --ssh_key_dir ) ssh_key_dir="$OPTARG"       ;; 
-                 --setup_files_dir ) setup_files_dir="$OPTARG"       ;; 
-                 --virtualenv ) virtualenv_dir="$OPTARG"     ;; 
-                 --help ) _usage                             ;;
-                 --server_name ) server_name="$OPTARG"       ;; 
-                 --troposphere_only ) troposphere_only=true  ;;
-                 --test ) test_only=true                     ;;
+                 --atmosphere_only ) atmosphere_only=true      ;;
+                 --branch ) branch_name="$OPTARG"              ;; 
+                 --working_dir ) working_dir="$OPTARG"         ;; 
+                 --ssh_key_dir ) ssh_key_dir="$OPTARG"         ;; 
+                 --setup_files_dir ) setup_files_dir="$OPTARG" ;; 
+                 --virtualenv ) virtualenv_dir="$OPTARG"       ;; 
+                 --help ) _usage                               ;;
+                 --server_name ) server_name="$OPTARG"         ;; 
+                 --troposphere_only ) troposphere_only=true    ;;
+                 --test ) test_only=true                       ;;
+                 --db_user ) db_user="$OPTARG"                 ;;
+                 --db_name ) db_name="$OPTARG"                 ;;
+                 --db_pass ) db_pass="$OPTARG"                 ;;
                  * )  _usage " Unknown long option provided: $OPTION:$OPTARG" ;;
              esac
            OPTIND=1
@@ -129,7 +141,7 @@ run_steps() {
     
     . src/02_dependencies.sh
     . src/03_pip_install.sh
-    . src/04_postgres.sh
+    . src/04_postgres.sh $db_name $db_user $db_pass
     . src/05_setuptools.sh
     . src/06_atmo_virtual_env.sh
     . src/07_m2cryptoconfiguration.sh
