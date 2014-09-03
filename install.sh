@@ -5,7 +5,7 @@ mkdir logs
 . src/02_dependencies.sh
 . src/03_pip_install.sh
 . src/04_postgres.sh
-#. src/setuptools.sh
+. src/05_setuptools.sh
 #. src/atmo_virtual_env.sh
 #. src/m2cryptoconfiguration.sh
 #. src/atmo_setup.sh
