@@ -139,11 +139,11 @@ run_steps() {
     ## Override them with arguments
     
     
-    #./src/02_dependencies.sh
-    #./src/03_pip_install.sh
-    #./src/04_postgres.sh $db_name $db_user $db_pass
-    #./src/05_setuptools.sh
-    #./src/06_atmo_virtual_env.sh $atmo_virtualenv
+    ./src/02_dependencies.sh
+    ./src/03_pip_install.sh
+    ./src/04_postgres.sh $db_name $db_user $db_pass
+    ./src/05_setuptools.sh
+    ./src/06_atmo_virtual_env.sh $atmo_virtualenv
     ./src/07_atmo_git_clone.sh $atmo_working_dir $branch_name
     ./src/08_atmo_setup.sh $setup_files_dir $atmo_working_dir $atmo_logs_dir $atmo_virtualenv $server_name $db_name $db_user $db_pass
     #./src/pip_install_atmo_requirements.sh
