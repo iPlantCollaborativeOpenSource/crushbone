@@ -69,8 +69,8 @@ main() {
 
 
     ## Initialize command line vars
-    atmo_only=false
-    tropo_only=false
+    atmo_only=true
+    tropo_only=true
     test_only=false
     
     branch_name=""
@@ -83,20 +83,20 @@ main() {
     ## Collect command line vars
     while getopts ':atT-b:D:E:s:' OPTION ; do
       case "$OPTION" in
-        a  ) atmo_only=true            ;;
+        a  ) tropo_only=false          ;;
         b  ) branch_name="$OPTARG"     ;;
         D  ) working_dir="$OPTARG"     ;;
         E  ) virtualenv_dir="$OPTARG"  ;;
         h  ) _usage                    ;;   
         s  ) server_name="$OPTARG"     ;;
-        t  ) tropo_only=true           ;;
+        t  ) atmo_only=false           ;;
         T  ) test_only=true            ;;
         -  ) [ $OPTIND -ge 1 ] && optind=$(expr $OPTIND - 1 ) || optind=$OPTIND
              eval OPTION="\$$optind"
              OPTARG=$(echo $OPTION | cut -d'=' -f2)
              OPTION=$(echo $OPTION | cut -d'=' -f1)
              case $OPTION in
-                 --atmosphere_only ) atmosphere_only=true      ;;
+                 --atmosphere_only ) tropo_only=false          ;;
                  --branch ) branch_name="$OPTARG"              ;; 
                  --working_dir ) working_dir="$OPTARG"         ;; 
                  --ssh_key_dir ) ssh_key_dir="$OPTARG"         ;; 
@@ -104,7 +104,7 @@ main() {
                  --virtualenv ) virtualenv_dir="$OPTARG"       ;; 
                  --help ) _usage                               ;;
                  --server_name ) server_name="$OPTARG"         ;; 
-                 --troposphere_only ) troposphere_only=true    ;;
+                 --troposphere_only ) atmo_only=false          ;;
                  --test ) test_only=true                       ;;
                  --db_user ) db_user="$OPTARG"                 ;;
                  --db_name ) db_name="$OPTARG"                 ;;
@@ -137,8 +137,18 @@ main() {
 run_steps() {
     
     ## Override them with arguments
+    if $atmo_only; then
+        echo "These commands will be run when Atmosphere should be installed"
+    fi
     
+    if $tropo_only; then
+        echo "These commands will be run when Troposphere should be installed"
+    fi
     
+    if $test_only; then
+        echo "These commands will be run when Chromogenic is creating a test build"
+    fi
+
     ./src/02_dependencies.sh
     ./src/03_pip_install.sh
     ./src/04_postgres.sh $db_name $db_user $db_pass
