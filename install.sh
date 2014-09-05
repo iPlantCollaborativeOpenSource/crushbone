@@ -146,7 +146,7 @@ run_steps() {
     ./src/06_atmo_virtual_env.sh $atmo_virtualenv
     ./src/07_atmo_git_clone.sh $atmo_working_dir $branch_name
     ./src/08_atmo_setup.sh $setup_files_dir $atmo_working_dir $atmo_logs_dir $atmo_virtualenv $server_name $db_name $db_user $db_pass
-    #./src/pip_install_atmo_requirements.sh
+    ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir
     #. src/atmo_python_db_migrations.sh
     #. src/atmo_virtual_env_deactivate.sh
     #. src/apache_configuration.sh
