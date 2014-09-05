@@ -147,6 +147,7 @@ run_steps() {
       ./src/07_atmo_git_clone.sh $atmo_working_dir $branch_name
       ./src/08_atmo_setup.sh $setup_files_dir $atmo_working_dir $atmo_logs_dir $atmo_virtualenv $server_name $db_name $db_user $db_pass
       ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir
+      . src/10_atmo_python_db_migrations.sh $atmo_working_dir
     fi
     
     if $tropo_only; then
@@ -157,7 +158,6 @@ run_steps() {
         echo "These commands will be run when Chromogenic is creating a test build"
     fi
 
-    #. src/atmo_python_db_migrations.sh
     #. src/atmo_virtual_env_deactivate.sh
     #. src/apache_configuration.sh
     #. src/ssl_configuration.sh
