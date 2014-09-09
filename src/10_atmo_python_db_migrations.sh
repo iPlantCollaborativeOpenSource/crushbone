@@ -4,6 +4,7 @@
 # Usage
 #
 # $LOCATIONOFATMOSPHERE - $1
+# $VIRTUAL_ENV_ATMOSPHERE - $2
 ##############################
 
 
@@ -15,7 +16,7 @@ touch $output_for_logs
 main(){
 
   LOCATIONOFATMOSPHERE=$1
-  
+  VIRTUAL_ENV_ATMOSPHERE=$2 
   ################################
   # Setup Python Packages
   ################################
@@ -29,15 +30,18 @@ main(){
   #####################
   npm -g install yuglify
 
-  python $LOCATIONOFATMOSPHERE/manage.py syncdb 2>> $output_for_logs
-  python $LOCATIONOFATMOSPHERE/manage.py migrate 2>> $output_for_logs
+  $VIRTUAL_ENV_ATMOSPHERE/bin/python $LOCATIONOFATMOSPHERE/manage.py syncdb 2>> $output_for_logs
+  $VIRTUAL_ENV_ATMOSPHERE/bin/python $LOCATIONOFATMOSPHERE/manage.py migrate 2>> $output_for_logs
 
-  python $LOCATIONOFATMOSPHERE/manage.py loaddata $LOCATIONOFATMOSPHERE/core/fixtures/provider.json 2>> $output_for_logs
-  python $LOCATIONOFATMOSPHERE/manage.py loaddata $LOCATIONOFATMOSPHERE/core/fixtures/quota.json 2>> $output_for_logs
+  $VIRTUAL_ENV_ATMOSPHERE/bin/python $LOCATIONOFATMOSPHERE/manage.py loaddata $LOCATIONOFATMOSPHERE/core/fixtures/provider.json 2>> $output_for_logs
+  $VIRTUAL_ENV_ATMOSPHERE/bin/python $LOCATIONOFATMOSPHERE/manage.py loaddata $LOCATIONOFATMOSPHERE/core/fixtures/quota.json 2>> $output_for_logs
 
-  python $LOCATIONOFATMOSPHERE/manage.py createcachetable atmosphere_cache_requests 2>> $output_for_logs
-  python $LOCATIONOFATMOSPHERE/manage.py collectstatic --noinput 2>> $output_for_logs
-  python $LOCATIONOFATMOSPHERE/scripts/import_users_from_openstack.py 2>> $output_for_logs
+  $VIRTUAL_ENV_ATMOSPHERE/bin/python $LOCATIONOFATMOSPHERE/manage.py createcachetable atmosphere_cache_requests 2>> $output_for_logs
+  $VIRTUAL_ENV_ATMOSPHERE/bin/python $LOCATIONOFATMOSPHERE/manage.py collectstatic --noinput 2>> $output_for_logs
+  
+  # TODO 
+  # Fix import users section
+  #$VIRTUAL_ENV_ATMOSPHERE/bin/python $LOCATIONOFATMOSPHERE/scripts/import_users_from_openstack.py 2>> $output_for_logs
 
 
   ###########
@@ -45,6 +49,11 @@ main(){
   ##########
   #python scripts/import_users_from_euca.py 2>> $output_for_logs
 }
-
-#EXECUTION
-main $@
+if [ "$#" -ne 2 ]; then
+  echo "Illegal number of parameters" 2>> $output_for_logs
+  echo $@ 2> $output_for_logs
+  exit 01
+else
+  #EXECUTION
+  main $@
+fi

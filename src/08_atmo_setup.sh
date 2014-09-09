@@ -89,6 +89,22 @@ run_steps(){
     cp $LOCATIONOFATMOSPHERE/atmosphere/settings/testing.py.dist $LOCATIONOFATMOSPHERE/atmosphere/settings/testing.py 2>> $output_for_logs
   fi
 
+  if [ -e $LOCATIONOFSETUPFILE/id_rsa ]; then
+    echo "Command: cp $LOCATIONOFSETUPFILE/id_rsa $LOCATIONOFATMOSPHERE/extras/ssh/" >> $output_for_logs
+    cp $LOCATIONOFSETUPFILE/id_rsa $LOCATIONOFATMOSPHERE/extras/ssh/ 2>> $output_for_logs
+  else
+    echo "NOTICE:id_rsa does not exist and may cause scripts to fail down the way!"
+  fi
+
+  mkdir -p $LOCATIONOFATMOSPHERE/extras/ssh/
+
+  if [ -e $LOCATIONOFSETUPFILE/id_rsa.pub ]; then
+    echo "Command: cp $LOCATIONOFSETUPFILE/id_rsa.pub $LOCATIONOFATMOSPHERE/extras/ssh/" >> $output_for_logs
+    cp $LOCATIONOFSETUPFILE/id_rsa.pub $LOCATIONOFATMOSPHERE/extras/ssh/ 2>> $output_for_logs 
+  else
+    echo "NOTICE:id_rsa.pub does not exist and may cause scripts to fail down the way!"
+  fi
+
   mkdir -p $LOCATIONOFLOGS
   if [ ! -e $LOCATIONOFLOGS/atmosphere.log ]; then
     touch $LOCATIONOFLOGS/atmosphere.log

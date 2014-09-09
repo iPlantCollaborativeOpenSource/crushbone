@@ -25,7 +25,7 @@ main(){
   fi
   
   source $VIRTUAL_ENV_ATMOSPHERE/bin/activate 2>> $output_for_logs
-  pip install pip==1.4.1
+  $VIRTUAL_ENV_ATMOSPHERE/bin/pip install pip==1.4.1
 
   ################################
   # Setup M2CryptoConfiguration
@@ -35,9 +35,7 @@ main(){
   if [ ! -L $m2crypto_loc ]; then
     sudo ln -s /usr/lib/python2.7/dist-packages/M2Crypto $m2crypto_loc 2> $output_for_logs
   else
-    echo "$m2crypto_loc is not valid location" >> $output_for_logs
-    echo "M2crypto can't be found with the system's python" >> $output_for_logs
-    exit -1
+    echo "$m2crypto_loc already exists. No action required." >> $output_for_logs
   fi
 }
 

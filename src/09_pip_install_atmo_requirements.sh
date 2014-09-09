@@ -2,7 +2,8 @@
 ##############################
 # Usage 
 #
-# $1 - LOCATIONOFATMOSPHERE
+# LOCATIONOFATMOSPHERE -$1
+# VIRTUAL_ENV_ATMOSPHERE - $2
 ##############################
 
 
@@ -14,11 +15,11 @@ touch $output_for_logs
 main(){
   
   LOCATIONOFATMOSPHERE=$1
-
-  pip install -r $LOCATIONOFATMOSPHERE/requirements.txt --upgrade >> $output_for_logs
+  VIRTUAL_ENV_ATMOSPHERE=$2
+  $VIRTUAL_ENV_ATMOSPHERE/bin/pip install -r $LOCATIONOFATMOSPHERE/requirements.txt --upgrade >> $output_for_logs
 
 }
-if [ "$#" -ne 1 ]; then
+if [ "$#" -ne 2 ]; then
   echo "Illegal number of parameters" 2>> $output_for_logs
   echo $@ 2> $output_for_logs
   exit 01
