@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 _usage() {
 echo "##### U S A G E : Help and ERROR ######"
 echo "$0 $Options"
@@ -150,6 +150,9 @@ run_steps() {
       ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv
       ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv 
       . src/atmo_virtual_env_deactivate.sh
+  
+      
+      ./src/apache_configuration.sh $atmo_working_dir $atmo_virtualenv $tropo_working_dir $server_name
     fi
     
     if $tropo_only; then
@@ -160,7 +163,6 @@ run_steps() {
         echo "These commands will be run when Chromogenic is creating a test build"
     fi
 
-    #. src/apache_configuration.sh
     #. src/ssl_configuration.sh
     #. src/ssh_keys.sh
     #. src/start_atmosphere.sh

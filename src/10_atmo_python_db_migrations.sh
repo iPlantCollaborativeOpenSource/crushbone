@@ -52,7 +52,7 @@ main(){
 if [ "$#" -ne 2 ]; then
   echo "Illegal number of parameters" 2>> $output_for_logs
   echo $@ 2> $output_for_logs
-  exit 01
+  exit -1
 else
   #EXECUTION
   main $@
