@@ -136,23 +136,23 @@ main() {
 }
 
 run_steps() {
-    ./src/02_dependencies.sh
-    ./src/03_pip_install.sh
+    #./src/02_dependencies.sh
+    #./src/03_pip_install.sh
 
     ## Override them with arguments
     if $atmo_only; then
       echo "These commands will be run when Atmosphere should be installed"
-      ./src/04_postgres.sh $db_name $db_user $db_pass
-      ./src/05_setuptools.sh
-      . ./src/06_atmo_virtual_env.sh $atmo_virtualenv
-      ./src/07_atmo_git_clone.sh $atmo_working_dir $branch_name
-      ./src/08_atmo_setup.sh $setup_files_dir $atmo_working_dir $atmo_logs_dir $atmo_virtualenv $server_name $db_name $db_user $db_pass
-      ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv
-      ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv 
-      . src/atmo_virtual_env_deactivate.sh
+      #./src/04_postgres.sh $db_name $db_user $db_pass
+      #./src/05_setuptools.sh
+      #. ./src/06_atmo_virtual_env.sh $atmo_virtualenv
+      #./src/07_atmo_git_clone.sh $atmo_working_dir $branch_name
+      #./src/08_atmo_setup.sh $setup_files_dir $atmo_working_dir $atmo_logs_dir $atmo_virtualenv $server_name $db_name $db_user $db_pass
+      #./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv
+      #./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv 
+      #. src/atmo_virtual_env_deactivate.sh
   
       
-      ./src/apache_configuration.sh $atmo_working_dir $atmo_virtualenv $tropo_working_dir $server_name
+      ./src/11_apache_configuration.sh $atmo_working_dir $atmo_virtualenv $tropo_working_dir $server_name
     fi
     
     if $tropo_only; then

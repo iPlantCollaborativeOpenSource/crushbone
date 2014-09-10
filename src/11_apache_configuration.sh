@@ -30,8 +30,8 @@ main(){
 
   ##This must match the key word in /extras/apache/atmo.conf.dist
   MYHOSTNAMEHERE="MYHOSTNAMEHERE"
-  LOCATIONOFATMOSPHEREHERE="LOCATIONOFATMOSPHERE"
-  LOCATIONOFTROPOSPHEREHERE="LOCATIONOFTROPOSPHERE"
+  LOCATIONOFATMOSPHEREHERE="PATH_TO_ATMOSPHERE"
+  LOCATIONOFTROPOSPHEREHERE="PATH_TO_TROPOSPHERE"
 
   a2enmod rewrite ssl proxy proxy_http auth_cas wsgi macro 2>> $output_for_logs
   /etc/init.d/apache2 restart
@@ -58,10 +58,10 @@ main(){
   sed -i "s/$RewriteRule/$ToggleOffRewriteRule/g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> $output_for_logs
 
 
-  ln -s $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf /etc/apache2/sites-available/atmo.conf
-  ln -s $LOCATIONOFATMOSPHERE/extras/apache/auth_cas.conf /etc/apache2/sites-available/auth_cas.conf
-  ln -s $LOCATIONOFATMOSPHERE/extras/apache/shell.conf /etc/apache2/sites-available/shell.conf
-  ln -s $LOCATIONOFATMOSPHERE/extras/apache/leaderboard.conf /etc/apache2/sites-available/leaderboard.conf
+  ln -s $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf /etc/apache2/sites-available/atmo.conf 2>> $output_for_logs
+  ln -s $LOCATIONOFATMOSPHERE/extras/apache/auth_cas.conf /etc/apache2/sites-available/auth_cas.conf 2>> $output_for_logs
+  ln -s $LOCATIONOFATMOSPHERE/extras/apache/shell.conf /etc/apache2/sites-available/shell.conf 2>> $output_for_logs
+  ln -s $LOCATIONOFATMOSPHERE/extras/apache/leaderboard.conf /etc/apache2/sites-available/leaderboard.conf 2>> $output_for_logs
 
   a2dissite 000-default 2>> $output_for_logs
   a2ensite atmo.conf auth_cas.conf shell.conf leaderboard.conf 2>> $output_for_logs
@@ -72,7 +72,7 @@ main(){
   echo "ServerName $SERVERNAME" >> /etc/apache2/apache2.conf
 }
 
-if [ "$#" -ne 2 ]; then
+if [ "$#" -ne 4 ]; then
   echo "Illegal number of parameters" 2>> $output_for_logs 
   echo $@ 2> $output_for_logs
   exit -1
@@ -80,3 +80,4 @@ else
   #EXECUTION
   main $@
 fi
+
