@@ -153,6 +153,7 @@ run_steps() {
       
       ./src/11_apache_configuration.sh $atmo_working_dir $atmo_virtualenv $tropo_working_dir $server_name
       ./src/12_ssl_configuration.sh $atmo_working_dir $ssh_key_dir
+      ./src/13_ssh_keys.sh
     fi
     
     if $tropo_only; then
@@ -163,7 +164,6 @@ run_steps() {
         echo "These commands will be run when Chromogenic is creating a test build"
     fi
 
-    #. src/ssh_keys.sh
     #. src/start_atmosphere.sh
     #. src/troposphere_virtual_env.sh
     #. src/troposphere_setup.sh
