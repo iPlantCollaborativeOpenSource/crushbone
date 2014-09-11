@@ -96,7 +96,7 @@ run_steps(){
     echo "Command: cp $LOCATIONOFSETUPFILE/id_rsa $LOCATIONOFATMOSPHERE/extras/ssh/" >> $output_for_logs
     cp $LOCATIONOFSETUPFILE/id_rsa $LOCATIONOFATMOSPHERE/extras/ssh/ 2>> $output_for_logs
   else
-    echo "NOTICE:id_rsa does not exist and may cause scripts to fail down the way!"
+    echo "NOTICE:id_rsa does not exist and may cause scripts to fail down the way!" >> $output_for_logs
   fi
 
 
@@ -104,7 +104,7 @@ run_steps(){
     echo "Command: cp $LOCATIONOFSETUPFILE/id_rsa.pub $LOCATIONOFATMOSPHERE/extras/ssh/" >> $output_for_logs
     cp $LOCATIONOFSETUPFILE/id_rsa.pub $LOCATIONOFATMOSPHERE/extras/ssh/ 2>> $output_for_logs 
   else
-    echo "NOTICE:id_rsa.pub does not exist and may cause scripts to fail down the way!"
+    echo "NOTICE:id_rsa.pub does not exist and may cause scripts to fail down the way!" >> $output_for_logs
   fi
 
   mkdir -p $LOCATIONOFLOGS
