@@ -68,7 +68,6 @@ main() {
     mkdir -p logs
     . src/01_configurationVariables.sh
 
-
     ## Initialize command line vars
     atmo_only=true
     tropo_only=true
@@ -153,6 +152,7 @@ run_steps() {
   
       
       ./src/11_apache_configuration.sh $atmo_working_dir $atmo_virtualenv $tropo_working_dir $server_name
+      ./src/12_ssl_configuration.sh $atmo_working_dir $ssh_key_dir
     fi
     
     if $tropo_only; then
@@ -163,7 +163,6 @@ run_steps() {
         echo "These commands will be run when Chromogenic is creating a test build"
     fi
 
-    #. src/ssl_configuration.sh
     #. src/ssh_keys.sh
     #. src/start_atmosphere.sh
     #. src/troposphere_virtual_env.sh

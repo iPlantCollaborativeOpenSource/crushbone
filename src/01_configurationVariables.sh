@@ -35,9 +35,9 @@
 # security on Atmosphere/Troposphere:
 #SSH_KEY_DIR="/root"
 
-NAMEOFYOURSSLCERTIFICATE="iplantc.org.crt"
-NAMEOFYOURSSLKEY="iplantc.key"
-NAMEOFYOURSSLBUNDLECERTIFICATE="gd_bundle.crt"
+export NAMEOFYOURSSLCERTIFICATE="iplantc.org.crt"
+export NAMEOFYOURSSLKEY="iplantc.key"
+export NAMEOFYOURSSLBUNDLECERTIFICATE="gd_bundle.crt"
 
 ##Variables for SSH Key Configuration
 #
