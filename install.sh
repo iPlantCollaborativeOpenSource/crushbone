@@ -139,7 +139,7 @@ run_steps() {
     ./src/02_dependencies.sh
     ./src/03_pip_install.sh
 
-    ## Override them with arguments
+    # Override them with arguments
     #Troposphere has no dependency on atmosphere, so build it first
     if [ "$tropo_only" = "true" ]; then
         echo "These commands will be run when Troposphere should be installed"
@@ -163,7 +163,8 @@ run_steps() {
     
     #ONLY create apache/SSL configurations if atmosphere AND troposphere is being built AND we are
     # building server for a non-test run
-    if [ "$test_only" = "false" && "$tropo_only" = "true" &&"$atmo_only" = "true" ]
+
+    if [[ "$test_only" = "false" && "$tropo_only" = "true" &&"$atmo_only" = "true" ]]
     then
       ./src/11_apache_configuration.sh $atmo_working_dir $atmo_virtualenv $tropo_working_dir $server_name
       ./src/12_ssl_configuration.sh $atmo_working_dir $ssh_key_dir
