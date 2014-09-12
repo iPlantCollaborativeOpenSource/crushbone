@@ -21,7 +21,8 @@ main(){
   ################################
   # Setup Troposphere Project
   ################################
-
+  BASEDIRECTORY=`pwd`
+  
   git clone https://github.com/iPlantCollaborativeOpenSource/troposphere.git $LOCATIONOFTROPOSPHERE
   if [ -e "$LOCATIONOFTROPOSPHERELOCALFILE/local.py" ]; then
     cp $LOCATIONOFTROPOSPHERELOCALFILE/local.py $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py 2>> $output_for_logs;
