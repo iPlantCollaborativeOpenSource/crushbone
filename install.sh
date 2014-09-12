@@ -145,6 +145,7 @@ run_steps() {
         echo "These commands will be run when Troposphere should be installed"
       . src/15_troposphere_virtual_env.sh $tropo_virtualenv
       . src/16_troposphere_setup.sh $tropo_working_dir $tropo_files_dir
+      . src/14_virtual_env_deactivate.sh
     fi
 
     if [ "$atmo_only" = "true" ]; then
