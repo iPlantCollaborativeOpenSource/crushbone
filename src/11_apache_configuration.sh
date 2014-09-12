@@ -52,7 +52,7 @@ main(){
   chown www-data:www-data $LOCATIONOFATMOSPHERE/logs/atmosphere.log 2>> $output_for_logs
   chown www-data:www-data $LOCATIONOFATMOSPHERE/resources/ 2>> $output_for_logs
 
-  echo "ServerName $SERVERNAME" >> /etc/apache2/apache2.conf
+  echo "ServerName $SERVERNAME.iplantc.org" >> /etc/apache2/apache2.conf
 }
 
 if [ "$#" -ne 4 ]; then
