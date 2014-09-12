@@ -54,7 +54,7 @@ _derived_variables() {
     tropo_working_dir="$working_dir/troposphere"
     tropo_logs_dir="$working_dir/logs"
     tropo_virtualnev="$virtualenv_dir/troposphere"
-    tropo_files_dir="$setup_files_dir"
+    tropo_files_dir="$setup_files_dir/tropo"
 
     ssh_keys_storage_dir="$ssh_key_dir/.ssh"
 }
@@ -148,18 +148,20 @@ run_steps() {
       ./src/08_atmo_setup.sh $setup_files_dir $atmo_working_dir $atmo_logs_dir $atmo_virtualenv $server_name $db_name $db_user $db_pass
       ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv
       ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv 
-      . src/atmo_virtual_env_deactivate.sh
   
       
       ./src/11_apache_configuration.sh $atmo_working_dir $atmo_virtualenv $tropo_working_dir $server_name
       ./src/12_ssl_configuration.sh $atmo_working_dir $ssh_key_dir
       ./src/13_start_atmosphere.sh
+
+      . src/14_atmo_virtual_env_deactivate.sh
+
     fi
     
     if $tropo_only; then
         echo "These commands will be run when Troposphere should be installed"
-        #. src/troposphere_virtual_env.sh
-        #. src/troposphere_setup.sh
+      . src/15_troposphere_virtual_env.sh $tropo_virtualnev
+      . src/16_troposphere_setup.sh $tropo_working_dir $tropo_files_dir
     fi
     
     if $test_only; then
