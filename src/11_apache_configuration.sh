@@ -23,41 +23,24 @@ main(){
   VIRTUAL_ENV_ATMOSPHERE=$2
   LOCATIONOFTROPOSPHERE=$3
   SERVERNAME=$4
+  #NOTE: These are passed as ENVIRONMENT VARIABLES!
+  # See: src/01_configurationVariables.sh
+  #NAMEOFYOURSSLCERTIFICATE=$4
+  #NAMEOFYOURSSLKEY=$5
+  #NAMEOFYOURSSLBUNDLECERTIFICATE=$6
 
   ################################
   # Setup Apache Configuration
   ################################
 
-  ##This must match the key word in /extras/apache/atmo.conf.dist
-  MYHOSTNAMEHERE="MYHOSTNAMEHERE"
-  LOCATIONOFATMOSPHEREHERE="PATH_TO_ATMOSPHERE"
-  LOCATIONOFTROPOSPHEREHERE="PATH_TO_TROPOSPHERE"
-
+  #Download appropriate modules, copy the dist, add the macro
   a2enmod rewrite ssl proxy proxy_http auth_cas wsgi macro 2>> $output_for_logs
   /etc/init.d/apache2 restart
-
   cp $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf.dist $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> $output_for_logs
+  echo "Use Atmosphere $SERVERNAME $LOCATIONOFATMOSPHERE $LOCATIONOFTROPOSPHERE $NAMEOFYOURSSLCERTIFICATE $NAMEOFYOURSSLKEY $NAMEOFYOURSSLBUNDLECERTIFICATE" >> $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> $output_for_logs
 
-  # change url references in atmo.conf
-
-  sed -i "s|VIRTUAL_ENV_ATMOSPHERE|$VIRTUAL_ENV_ATMOSPHERE|g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> $output_for_logs
-  sed -i "s|VIRTUAL_ENV_TROPOSHERE|$VIRTUAL_ENV_TROPOSHERE|g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> $output_for_logs
-
-  sed -i "s/$MYHOSTNAMEHERE/$SERVERNAME/g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> $output_for_logs
-  sed -i "s|$LOCATIONOFATMOSPHEREHERE|$LOCATIONOFATMOSPHERE|g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> $output_for_logs
-  sed -i "s|$LOCATIONOFTROPOSPHEREHERE|$LOCATIONOFTROPOSPHERE|g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> $output_for_logs
-
-  #Assuming this is not a production box, turn off rewrite rules
-
-  RewriteCond="RewriteCond"
-  ToggleOffRewriteCond="#$RewriteCond"
-  RewriteRule="RewriteRule"
-  ToggleOffRewriteRule="#$RewriteRule"
-
-  sed -i "s/$RewriteCond/$ToggleOffRewriteCond/g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> $output_for_logs
-  sed -i "s/$RewriteRule/$ToggleOffRewriteRule/g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> $output_for_logs
-
-
+  #Symlink all extras files to appropriate space in apache so that future
+  #updates are applied automatically
   ln -s $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf /etc/apache2/sites-available/atmo.conf 2>> $output_for_logs
   ln -s $LOCATIONOFATMOSPHERE/extras/apache/auth_cas.conf /etc/apache2/sites-available/auth_cas.conf 2>> $output_for_logs
   ln -s $LOCATIONOFATMOSPHERE/extras/apache/shell.conf /etc/apache2/sites-available/shell.conf 2>> $output_for_logs

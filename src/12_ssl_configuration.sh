@@ -18,9 +18,11 @@ main(){
 
   LOCATIONOFATMOSPHERE=$1
   INITIALINSTALLDIRECTORY=$2
+  #NOTE: These are passed as ENVIRONMENT VARIABLES!
+  # See: src/01_configurationVariables.sh
   #NAMEOFYOURSSLCERTIFICATE=$3
-  #NAMEOFYOURSSLBUNDLECERTIFICATE=$4
-  #NAMEOFYOURSSLKEY=$5
+  #NAMEOFYOURSSLKEY=$4
+  #NAMEOFYOURSSLBUNDLECERTIFICATE=$5
   
   ################################
   # Setup SSL Configuration
@@ -34,9 +36,6 @@ main(){
     cp "$INITIALINSTALLDIRECTORY/$NAMEOFYOURSSLBUNDLECERTIFICATE" /etc/ssl/certs/ 2>> $output_for_logs
     cp "$INITIALINSTALLDIRECTORY/$NAMEOFYOURSSLKEY" /etc/ssl/private/ 2>> $output_for_logs
 
-    sed -i "s/BASECERTHERE/$NAMEOFYOURSSLCERTIFICATE/g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> $output_for_logs
-    sed -i "s/KEYHERE/$NAMEOFYOURSSLKEY/g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> $output_for_logs
-    sed -i "s/BUNDLECERTHERE/$NAMEOFYOURSSLBUNDLECERTIFICATE/g" $LOCATIONOFATMOSPHERE/extras/apache/atmo.conf 2>> $output_for_logs
   else
     echo "IMPORTANT: PLESE NOTE" >> $output_for_logs
     echo "Either your certificates are incorrect, missing, or you have none" >> $output_for_logs

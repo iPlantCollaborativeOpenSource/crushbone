@@ -53,7 +53,7 @@ _derived_variables() {
 
     tropo_working_dir="$working_dir/troposphere"
     tropo_logs_dir="$working_dir/logs"
-    tropo_virtualnev="$virtualenv_dir/troposphere"
+    tropo_virtualenv="$virtualenv_dir/troposphere"
     tropo_files_dir="$setup_files_dir/tropo"
 
     ssh_keys_storage_dir="$ssh_key_dir/.ssh"
@@ -135,11 +135,19 @@ main() {
 }
 
 run_steps() {
+    #NOTE: The dependencies could be split out for tropo/atmo later on..
     ./src/02_dependencies.sh
     ./src/03_pip_install.sh
 
     ## Override them with arguments
-    if $atmo_only; then
+    #Troposphere has no dependency on atmosphere, so build it first
+    if [ "$tropo_only" = "true" ]; then
+        echo "These commands will be run when Troposphere should be installed"
+      . src/15_troposphere_virtual_env.sh $tropo_virtualenv
+      . src/16_troposphere_setup.sh $tropo_working_dir $tropo_files_dir
+    fi
+
+    if [ "$atmo_only" = "true" ]; then
       echo "These commands will be run when Atmosphere should be installed"
       ./src/04_postgres.sh $db_name $db_user $db_pass
       ./src/05_setuptools.sh
@@ -148,25 +156,19 @@ run_steps() {
       ./src/08_atmo_setup.sh $setup_files_dir $atmo_working_dir $atmo_logs_dir $atmo_virtualenv $server_name $db_name $db_user $db_pass
       ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv
       ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv 
-  
+      . src/14_atmo_virtual_env_deactivate.sh
       
+    fi
+    
+    #ONLY create apache/SSL configurations if atmosphere AND troposphere is being built AND we are
+    # building server for a non-test run
+    if [ "$test_only" = "false" && "$tropo_only" = "true" &&"$atmo_only" = "true" ]
+    then
       ./src/11_apache_configuration.sh $atmo_working_dir $atmo_virtualenv $tropo_working_dir $server_name
       ./src/12_ssl_configuration.sh $atmo_working_dir $ssh_key_dir
       ./src/13_start_atmosphere.sh
+    fi
 
-      . src/14_atmo_virtual_env_deactivate.sh
-
-    fi
-    
-    if $tropo_only; then
-        echo "These commands will be run when Troposphere should be installed"
-      . src/15_troposphere_virtual_env.sh $tropo_virtualnev
-      . src/16_troposphere_setup.sh $tropo_working_dir $tropo_files_dir
-    fi
-    
-    if $test_only; then
-        echo "These commands will be run when Chromogenic is creating a test build"
-    fi
 
 }
 
