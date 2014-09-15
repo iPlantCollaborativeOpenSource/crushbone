@@ -35,12 +35,12 @@ main(){
   fi
 
   if [ ! -e "/etc/init.d/atmosphere" ]; then
-    ln –s $LOCATIONOFATMOSPHERE/extras/init.d/atmosphere /etc/init.d/atmosphere
+    ln -s $LOCATIONOFATMOSPHERE/extras/init.d/atmosphere /etc/init.d/atmosphere
   fi 
-  service atmosphere celery-restart
+  service atmosphere celery-restart 2>> $output_for_logs
 }
 
-if [ "$#" -ne 2 ]; then
+if [ "$#" -ne 1 ]; then
   echo "Illegal number of parameters" 2>> $output_for_logs
   echo $@ 2> $output_for_logs
   exit -1
