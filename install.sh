@@ -158,7 +158,7 @@ run_steps() {
       ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv
       ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv 
       . src/14_virtual_env_deactivate.sh
-      
+      ./src/17_celery_setup.sh      
     fi
     
     #ONLY create apache/SSL configurations if atmosphere AND troposphere is being built AND we are

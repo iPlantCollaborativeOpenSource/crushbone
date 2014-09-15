@@ -119,8 +119,6 @@ run_steps(){
   # "sys.path.insert(1, root_dir)"
 
 
-
-
   insertBeforeThisLine="sys.path.insert(1, root_dir)"
   insertNewLine="sys.path.insert(0, '$VIRTUAL_ENV_ATMOSPHERE/lib/python2.7/site-packages/')"
   sed -i "/.*$insertBeforeThisLine.*/i$insertNewLine" $LOCATIONOFATMOSPHERE/atmosphere/wsgi.py 2>> $output_for_logs
