@@ -17,7 +17,7 @@ main(){
   # Setup Virtualenv
   ################################
   which pip
-  pip install --upgrade virtualenv 2> $output_for_logs
+  #pip install --upgrade virtualenv 2> $output_for_logs
   
   mkdir -p $VIRTUAL_ENV_ATMOSPHERE
   if [ ! -f $VIRTUAL_ENV_ATMOSPHERE/bin/activate ]; then
@@ -25,7 +25,7 @@ main(){
   fi
   
   source $VIRTUAL_ENV_ATMOSPHERE/bin/activate 2>> $output_for_logs
-  $VIRTUAL_ENV_ATMOSPHERE/bin/pip install pip==1.4.1
+  #$VIRTUAL_ENV_ATMOSPHERE/bin/pip install pip==1.4.1
 
   ################################
   # Setup M2CryptoConfiguration
