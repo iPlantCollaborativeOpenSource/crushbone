@@ -111,6 +111,7 @@ run_steps(){
   mkdir -p $LOCATIONOFLOGS
   if [ ! -e $LOCATIONOFLOGS/atmosphere.log ]; then
     touch $LOCATIONOFLOGS/atmosphere.log
+    touch $LOCATIONOFLOGS/atmosphere_status.log
   else
     echo "Atmosphere.log already exists" >> $output_for_logs 
   fi
@@ -133,7 +134,7 @@ run_steps(){
 
   # TODO
   # Check to see if user and group exists
-  chown -R www-data:core-services $LOCATIONOFATMOSPHERE 2>> $output_for_logs
+  chown -R www-data:www-data $LOCATIONOFATMOSPHERE 2>> $output_for_logs
 }
 
 #EXECUTION PATH:

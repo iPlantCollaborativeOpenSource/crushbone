@@ -39,8 +39,9 @@ main(){
   #else
   #  echo "Need to generate a groupy key and place it in the $LOCATIONOFTROPOSPHERE directory." 2>> $output_for_logs;
   #fi
-
+  mkdir -p "$LOCATIONOFTROPOSPHERE/logs/"
   touch  "$LOCATIONOFTROPOSPHERE/logs/troposphere.log"
+  chown -R www-data:www-data $LOCATIONOFTROPOSPHERE
   ## NOTE: Now we use make for all of this.
   ## Re-add if any of these steps are NOT covered by make.
   ## pip install --upgrade pip 2>> $output_for_logs
