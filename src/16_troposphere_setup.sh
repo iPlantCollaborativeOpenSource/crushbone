@@ -31,6 +31,7 @@ main(){
     sed -i "s/SERVERNAME/$SERVERNAME/g" $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py 2>> $output_for_logs
   else
     cp $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py.dist $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py
+    sed -i "s/SERVERNAME/$SERVERNAME/g" $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py 2>> $output_for_logs
   fi
 
   #if [ -e "$LOCATIONOFTROPOSPHEREKEY/troposhere.key" ]; then
