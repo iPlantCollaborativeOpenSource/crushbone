@@ -81,15 +81,15 @@ run_steps(){
     echo "Command: cp $LOCATIONOFATMOSPHERE/atmosphere/settings/secrets.py.dist $LOCATIONOFATMOSPHERE/atmosphere/settings/secrets.py" >> $output_for_logs
     cp $LOCATIONOFATMOSPHERE/atmosphere/settings/secrets.py.dist $LOCATIONOFATMOSPHERE/atmosphere/settings/secrets.py 2>> $output_for_logs
   fi
-
-  if [ -e $LOCATIONOFSETUPFILE/testing.py ]; then
-    echo "Command: cp $LOCATIONOFSETUPFILE/testing.py $LOCATIONOFATMOSPHERE/atmosphere/settings/testing.py" >> $output_for_logs
-    cp $LOCATIONOFSETUPFILE/testing.py $LOCATIONOFATMOSPHERE/atmosphere/settings/testing.py 2>> $output_for_logs
-  else
-    echo "$LOCATIONOFSETUPFILE/testing.py does not exist" >> $output_for_logs
-    echo "cp $LOCATIONOFATMOSPHERE/atmosphere/settings/testing.py.dist $LOCATIONOFATMOSPHERE/atmosphere/settings/testing.py" >> $output_for_logs
-    cp $LOCATIONOFATMOSPHERE/atmosphere/settings/testing.py.dist $LOCATIONOFATMOSPHERE/atmosphere/settings/testing.py 2>> $output_for_logs
-  fi
+  #NOTE: Not using testing.py
+  #if [ -e $LOCATIONOFSETUPFILE/testing.py ]; then
+  #  echo "Command: cp $LOCATIONOFSETUPFILE/testing.py $LOCATIONOFATMOSPHERE/atmosphere/settings/testing.py" >> $output_for_logs
+  #  cp $LOCATIONOFSETUPFILE/testing.py $LOCATIONOFATMOSPHERE/atmosphere/settings/testing.py 2>> $output_for_logs
+  #else
+  #  echo "$LOCATIONOFSETUPFILE/testing.py does not exist" >> $output_for_logs
+  #  echo "cp $LOCATIONOFATMOSPHERE/atmosphere/settings/testing.py.dist $LOCATIONOFATMOSPHERE/atmosphere/settings/testing.py" >> $output_for_logs
+  #  cp $LOCATIONOFATMOSPHERE/atmosphere/settings/testing.py.dist $LOCATIONOFATMOSPHERE/atmosphere/settings/testing.py 2>> $output_for_logs
+  #fi
 
   
   mkdir -p $LOCATIONOFATMOSPHERE/extras/ssh/
