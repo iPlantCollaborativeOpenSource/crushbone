@@ -199,18 +199,22 @@ run_steps() {
     #       non-standard install occurred..
     install_dependencies()
     if [[ "$jenkins" = "true" && "$install_atmo" = "true" ]]; then
+        print "Rebuilding Jenkins on Atmosphere"
         atmo_rebuild_jenkins
         return 0
     elif [[ "$jenkins" = "true" && "$install_tropo" = "true" ]]; then
+        print "Rebuilding Jenkins on Troposphere"
         tropo_rebuild_jenkins
         return 0
     fi
     #Troposphere has no dependency on atmosphere, so build it first
     if [ "$install_tropo" = "true" ]; then
+        print "Building Troposphere"
         build_troposphere
     fi
 
     if [ "$install_atmo" = "true" ]; then
+        print "Building Atmosphere"
         build_atmosphere
     fi
 
@@ -219,6 +223,7 @@ run_steps() {
     #TODO: A secret file for 'atmo_only' Vs. 'tropo_only' Vs. 'atmo & tropo'
     if [[ "$test_only" = "false" && "$install_tropo" = "true" &&"$install_atmo" = "true" ]]
     then
+        print "Building Production Server"
         build_production_server
     fi
 
