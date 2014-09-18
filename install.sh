@@ -27,8 +27,8 @@ exit
 }
 
 _swap_variables() {
-    atmo_only=${atmo_only:-false}
-    tropo_only=${tropo_only:-false}
+    install_atmo=${install_atmo:-false}
+    install_tropo=${install_tropo:-false}
     test_only=${test_only:-false}
 
     db_name=${db_name:-${DBNAME:-"atmo_prod"}}
@@ -69,9 +69,10 @@ main() {
     . src/01_configurationVariables.sh
 
     ## Initialize command line vars
-    atmo_only=true
-    tropo_only=true
+    install_atmo=true
+    install_tropo=true
     test_only=false
+    jenkins=false
     
     branch_name=""
     working_dir=""
@@ -83,28 +84,30 @@ main() {
     ## Collect command line vars
     while getopts ':atT-b:D:E:s:' OPTION ; do
       case "$OPTION" in
-        a  ) tropo_only=false          ;;
+        a  ) install_tropo=false          ;;
         b  ) branch_name="$OPTARG"     ;;
         D  ) working_dir="$OPTARG"     ;;
         E  ) virtualenv_dir="$OPTARG"  ;;
         h  ) _usage                    ;;   
+        j  ) jenkins=true              ;;
         s  ) server_name="$OPTARG"     ;;
-        t  ) atmo_only=false           ;;
+        t  ) install_atmo=false           ;;
         T  ) test_only=true            ;;
         -  ) [ $OPTIND -ge 1 ] && optind=$(expr $OPTIND - 1 ) || optind=$OPTIND
              eval OPTION="\$$optind"
              OPTARG=$(echo $OPTION | cut -d'=' -f2)
              OPTION=$(echo $OPTION | cut -d'=' -f1)
              case $OPTION in
-                 --atmosphere_only ) tropo_only=false          ;;
+                 --atmosphere_only ) install_tropo=false          ;;
                  --branch ) branch_name="$OPTARG"              ;; 
+                 --jenkins) jenkins=true                       ;; 
                  --working_dir ) working_dir="$OPTARG"         ;; 
                  --ssh_key_dir ) ssh_key_dir="$OPTARG"         ;; 
                  --setup_files_dir ) setup_files_dir="$OPTARG" ;; 
                  --virtualenv ) virtualenv_dir="$OPTARG"       ;; 
                  --help ) _usage                               ;;
                  --server_name ) server_name="$OPTARG"         ;; 
-                 --troposphere_only ) atmo_only=false          ;;
+                 --troposphere_only ) install_atmo=false          ;;
                  --test ) test_only=true                       ;;
                  --db_user ) db_user="$OPTARG"                 ;;
                  --db_name ) db_name="$OPTARG"                 ;;
@@ -124,54 +127,85 @@ main() {
     
     echo "---------------------------------------------------"
     echo "Your Configuration:"
-    echo "Atmosphere Only: $atmo_only"
-    echo "Troposphere Only: $tropo_only"
+    echo "Jenkins Rebuild: $jenkins"
     echo "Test Mode: $test_only"
+    echo "Install Atmosphere: $install_atmo"
+    echo "Install Troposphere: $install_tropo"
     echo "Branch Name: $branch_name"
     echo "Server Name: $server_name"
     echo "Source Code Dir: $working_dir"
     echo "Environment Dir: $virtualenv_dir"
     echo "---------------------------------------------------"
 }
-
-run_steps() {
-    #NOTE: The dependencies could be split out for tropo/atmo later on..
+install_dependencies() {
     ./src/02_dependencies.sh
     ./src/03_pip_install.sh
-
+}
+build_troposphere() {
+    echo "These commands will be run when Troposphere should be installed"
+    . src/15_troposphere_virtual_env.sh $tropo_virtualenv
+    . src/16_troposphere_setup.sh $tropo_working_dir $tropo_files_dir $server_name
+    . src/14_virtual_env_deactivate.sh
+}
+build_atmosphere() {
+    echo "These commands will be run when Atmosphere should be installed"
+    ./src/04_postgres.sh $db_name $db_user $db_pass
+    ./src/05_setuptools.sh
+    . ./src/06_atmo_virtual_env.sh $atmo_virtualenv
+    ./src/07_atmo_git_clone.sh $atmo_working_dir $branch_name
+    ./src/08_atmo_setup.sh $setup_files_dir $atmo_working_dir $atmo_logs_dir $atmo_virtualenv $server_name $db_name $db_user $db_pass
+    ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv
+    ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv 
+    . src/14_virtual_env_deactivate.sh
+    ./src/17_celery_setup.sh $atmo_working_dir
+}
+build_production_server() {
+      ./src/11_apache_configuration.sh $atmo_working_dir $atmo_virtualenv $tropo_working_dir $server_name
+      ./src/12_ssl_configuration.sh $atmo_working_dir $ssh_key_dir
+      ./src/13_start_atmosphere.sh
+}
+rebuild_jenkins() {
+    #Jenkins already has postgresql setup properly
+    #Jenkins already has atmosphere cloned in the correct workspace
+    . ./src/06_atmo_virtual_env.sh $atmo_virtualenv
+    #Jenkins already has the correct atmosphere settings, no overwrites
+    #required
+    ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv
+    ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv 
+    . src/14_virtual_env_deactivate.sh
+    ./src/17_celery_setup.sh $atmo_working_dir
+}
+run_steps() {
+    #NOTE: The dependencies could be split out for tropo/atmo later on..
+    #FIXME: Using . relative paths will lead to issues finding correct paths
+    #       when executed outside of the 'crushbone' directory.
+    #FIXME: instead of exit 0 we should track $? for non-zero and always bubble
+    #       up non-zero when they are encountered so jenkins/script knows a
+    #       non-standard install occurred..
+    install_dependencies()
+    if [ "$jenkins" = "true" ]; then
+        rebuild_jenkins()
+        exit 0
+    fi
     # Override them with arguments
     #Troposphere has no dependency on atmosphere, so build it first
-    if [ "$tropo_only" = "true" ]; then
-        echo "These commands will be run when Troposphere should be installed"
-      . src/15_troposphere_virtual_env.sh $tropo_virtualenv
-      . src/16_troposphere_setup.sh $tropo_working_dir $tropo_files_dir $server_name
-      . src/14_virtual_env_deactivate.sh
+    if [ "$install_tropo" = "true" ]; then
+        build_troposphere()
     fi
 
-    if [ "$atmo_only" = "true" ]; then
-      echo "These commands will be run when Atmosphere should be installed"
-      ./src/04_postgres.sh $db_name $db_user $db_pass
-      ./src/05_setuptools.sh
-      . ./src/06_atmo_virtual_env.sh $atmo_virtualenv
-      ./src/07_atmo_git_clone.sh $atmo_working_dir $branch_name
-      ./src/08_atmo_setup.sh $setup_files_dir $atmo_working_dir $atmo_logs_dir $atmo_virtualenv $server_name $db_name $db_user $db_pass
-      ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv
-      ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv 
-      . src/14_virtual_env_deactivate.sh
-      ./src/17_celery_setup.sh $atmo_working_dir
+    if [ "$install_atmo" = "true" ]; then
+        build_atmosphere()
     fi
     
     #ONLY create apache/SSL configurations if atmosphere AND troposphere is being built AND we are
     # building server for a non-test run
 
-    if [[ "$test_only" = "false" && "$tropo_only" = "true" &&"$atmo_only" = "true" ]]
+    if [[ "$test_only" = "false" && "$install_tropo" = "true" &&"$install_atmo" = "true" ]]
     then
-      ./src/11_apache_configuration.sh $atmo_working_dir $atmo_virtualenv $tropo_working_dir $server_name
-      ./src/12_ssl_configuration.sh $atmo_working_dir $ssh_key_dir
-      ./src/13_start_atmosphere.sh
+        build_production_server()
     fi
 
-
+    exit 0
 }
 
 

@@ -13,7 +13,7 @@ touch $output_for_logs
 main(){
   
   LOCATIONOFATMOSPHERE=$1
-  
+  #TODO: Test for 'ufw status == Enabled' before running these lines
   if [ ! -e "/etc/ufw/applications.d/celery" ]; then
     echo "[Celery]" > /etc/ufw/applications.d/celery
     echo "title=Remote Celery Communications" >> /etc/ufw/applications.d/celery

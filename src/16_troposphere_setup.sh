@@ -19,6 +19,12 @@ main(){
   LOCATIONOFTROPOSPHERELOCALFILE=$2
   LOCATIONOFTROPOSPHEREKEY=$2
   SERVERNAME=$3
+
+  #####################
+  ## Install yuglify
+  #####################
+  npm -g install yuglify
+
   ################################
   # Setup Troposphere Project
   ################################
@@ -42,23 +48,6 @@ main(){
   mkdir -p "$LOCATIONOFTROPOSPHERE/logs/"
   touch  "$LOCATIONOFTROPOSPHERE/logs/troposphere.log"
   chown -R www-data:www-data $LOCATIONOFTROPOSPHERE
-  ## NOTE: Now we use make for all of this.
-  ## Re-add if any of these steps are NOT covered by make.
-  ## pip install --upgrade pip 2>> $output_for_logs
-  ## pip install -r $LOCATIONOFTROPOSPHERE/requirements.txt 2>> $output_for_logs
-  ## npm update npm -g 2>> $output_for_logs
-  ## npm install gulp -g 2>> $output_for_logs
-  ## npm install bower -g 2>> $output_for_logs
-  ## gem install sass 2>> $output_for_logs
-  ## BASEDIRECTORY=`pwd`
-  ## cd $LOCATIONOFTROPOSPHERE
-  ## npm install 2>> $output_for_logs
-  ## bower install --allow-root --config.interactive=false 2>> $output_for_logs
-  ## #Build stuff with glup
-  ## gulp 2>> $output_for_logs
-  ## chown -R www-data:www-data troposphere/assets
-  ## service apache2 restart
-  ## cd $BASEDIRECTORY
   cd $LOCATIONOFTROPOSPHERE
   make
   cd $BASEDIRECTORY

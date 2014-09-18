@@ -24,12 +24,6 @@ main(){
   export PYTHONPATH=$LOCATIONOFATMOSPHERE
   export DJANGO_SETTINGS_MODULE='atmosphere.settings'
 
-
-  #####################
-  ## Install yuglify
-  #####################
-  npm -g install yuglify
-
   $VIRTUAL_ENV_ATMOSPHERE/bin/python $LOCATIONOFATMOSPHERE/manage.py syncdb 2>> $output_for_logs
   $VIRTUAL_ENV_ATMOSPHERE/bin/python $LOCATIONOFATMOSPHERE/manage.py migrate 2>> $output_for_logs
 
