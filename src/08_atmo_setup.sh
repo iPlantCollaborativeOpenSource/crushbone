@@ -47,7 +47,8 @@ run_steps(){
   if [ -e $LOCATIONOFSETUPFILE/local.py ]; then
     echo "Command: cp $LOCATIONOFSETUPFILE/local.py $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py" >> $output_for_logs
     cp $LOCATIONOFSETUPFILE/local.py $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py 2>> $output_for_logs;
-    sed -i "s/SERVERNAME/$SERVERNAME/g" $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py 2>> $output_for_logs
+    #FIXME: .iplantc.org --> FQDN
+    sed -i "s/SERVERNAME/$SERVERNAME.iplantc.org/g" $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py 2>> $output_for_logs
   else
 
     echo "$LOCATIONOFSETUPFILE/local.py does not exist" >> $output_for_logs
