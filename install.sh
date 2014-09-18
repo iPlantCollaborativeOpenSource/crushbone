@@ -17,7 +17,7 @@ echo "               -s   --server_name=     Override server name in configurati
 echo "               --setup_files_dir=      Set the directory containing setup files"
 echo "               --ssh_key_dir=          Set the directory containing ssh key-related files"
 echo "               --db_name=              Set the database name to be used on installation"
-echo "               --db_user=              Set the database user to be used on installation" 
+echo "               --db_user=              Set the database user to be used on installation"
 echo "               --db_pass=              Set the database password to be used on installation"
 echo ""
 if [ "$1" != "" ]; then
@@ -73,14 +73,14 @@ main() {
     install_tropo=true
     test_only=false
     jenkins=false
-    
+
     branch_name=""
     working_dir=""
     virtualenv_dir=""
     ssh_key_dir=""
     setup_files_dir=""
     server_name=""
-    
+
     ## Collect command line vars
     while getopts ':atT-b:D:E:s:' OPTION ; do
       case "$OPTION" in
@@ -88,7 +88,7 @@ main() {
         b  ) branch_name="$OPTARG"     ;;
         D  ) working_dir="$OPTARG"     ;;
         E  ) virtualenv_dir="$OPTARG"  ;;
-        h  ) _usage                    ;;   
+        h  ) _usage                    ;;
         j  ) jenkins=true              ;;
         s  ) server_name="$OPTARG"     ;;
         t  ) install_atmo=false           ;;
@@ -99,14 +99,14 @@ main() {
              OPTION=$(echo $OPTION | cut -d'=' -f1)
              case $OPTION in
                  --atmosphere_only ) install_tropo=false          ;;
-                 --branch ) branch_name="$OPTARG"              ;; 
-                 --jenkins) jenkins=true                       ;; 
-                 --working_dir ) working_dir="$OPTARG"         ;; 
-                 --ssh_key_dir ) ssh_key_dir="$OPTARG"         ;; 
-                 --setup_files_dir ) setup_files_dir="$OPTARG" ;; 
-                 --virtualenv ) virtualenv_dir="$OPTARG"       ;; 
+                 --branch ) branch_name="$OPTARG"              ;;
+                 --jenkins) jenkins=true                       ;;
+                 --working_dir ) working_dir="$OPTARG"         ;;
+                 --ssh_key_dir ) ssh_key_dir="$OPTARG"         ;;
+                 --setup_files_dir ) setup_files_dir="$OPTARG" ;;
+                 --virtualenv ) virtualenv_dir="$OPTARG"       ;;
                  --help ) _usage                               ;;
-                 --server_name ) server_name="$OPTARG"         ;; 
+                 --server_name ) server_name="$OPTARG"         ;;
                  --troposphere_only ) install_atmo=false          ;;
                  --test ) test_only=true                       ;;
                  --db_user ) db_user="$OPTARG"                 ;;
@@ -124,7 +124,7 @@ main() {
     _swap_variables
     _derived_variables
     echo $branch_name
-    
+
     echo "---------------------------------------------------"
     echo "Your Configuration:"
     echo "Jenkins Rebuild: $jenkins"
@@ -162,25 +162,33 @@ build_atmosphere() {
     ./src/07_atmo_git_clone.sh $atmo_working_dir $branch_name
     ./src/08_atmo_setup.sh $setup_files_dir $atmo_working_dir $atmo_logs_dir $atmo_virtualenv $server_name $db_name $db_user $db_pass
     ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv
-    ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv 
+    ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv
     . src/14_virtual_env_deactivate.sh
-    ./src/17_celery_setup.sh $atmo_working_dir
 }
 build_production_server() {
       ./src/11_apache_configuration.sh $atmo_working_dir $atmo_virtualenv $tropo_working_dir $server_name
       ./src/12_ssl_configuration.sh $atmo_working_dir $ssh_key_dir
-      ./src/13_start_atmosphere.sh
+      ./src/13_start_atmosphere.sh "apache"
+      ./src/17_celery_setup.sh $atmo_working_dir
+      ./src/13_start_atmosphere.sh "atmosphere"
 }
-rebuild_jenkins() {
+atmo_rebuild_jenkins() {
     #Jenkins already has postgresql setup properly
     #Jenkins already has atmosphere cloned in the correct workspace
     . ./src/06_atmo_virtual_env.sh $atmo_virtualenv
     #Jenkins already has the correct atmosphere settings, no overwrites
     #required
     ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv
-    ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv 
+    ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv
+    #Jenkins already has the correct apache settings, no overwrites
+    #required
     . src/14_virtual_env_deactivate.sh
     ./src/17_celery_setup.sh $atmo_working_dir
+    ./src/13_start_atmosphere.sh "atmosphere"
+}
+tropo_rebuild_jenkins() {
+    #TODO: Find out if we need to do anything special here..
+    build_troposphere
 }
 run_steps() {
     #NOTE: The dependencies could be split out for tropo/atmo later on..
@@ -190,11 +198,13 @@ run_steps() {
     #       up non-zero when they are encountered so jenkins/script knows a
     #       non-standard install occurred..
     install_dependencies()
-    if [ "$jenkins" = "true" ]; then
-        rebuild_jenkins
+    if [[ "$jenkins" = "true" && "$install_atmo" = "true" ]]; then
+        atmo_rebuild_jenkins
+        return 0
+    elif [[ "$jenkins" = "true" && "$install_tropo" = "true" ]]; then
+        tropo_rebuild_jenkins
         return 0
     fi
-    # Override them with arguments
     #Troposphere has no dependency on atmosphere, so build it first
     if [ "$install_tropo" = "true" ]; then
         build_troposphere
@@ -203,10 +213,10 @@ run_steps() {
     if [ "$install_atmo" = "true" ]; then
         build_atmosphere
     fi
-    
+
     #ONLY create apache/SSL configurations if atmosphere AND troposphere is being built AND we are
     # building server for a non-test run
-
+    #TODO: A secret file for 'atmo_only' Vs. 'tropo_only' Vs. 'atmo & tropo'
     if [[ "$test_only" = "false" && "$install_tropo" = "true" &&"$install_atmo" = "true" ]]
     then
         build_production_server

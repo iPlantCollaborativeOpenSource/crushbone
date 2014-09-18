@@ -30,15 +30,22 @@ main(){
   ################################
   BASEDIRECTORY=`pwd`
   
-
+  if [[ ! -d "$LOCATIONOFTROPOSPHERE" ]]; then
   git clone https://github.com/iPlantCollaborativeOpenSource/troposphere.git $LOCATIONOFTROPOSPHERE
-  if [ -e "$LOCATIONOFTROPOSPHERELOCALFILE/local.py" ]; then
-    cp $LOCATIONOFTROPOSPHERELOCALFILE/local.py $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py 2>> $output_for_logs;
-    sed -i "s/SERVERNAME/$SERVERNAME/g" $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py 2>> $output_for_logs
-  else
-    cp $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py.dist $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py
-    sed -i "s/SERVERNAME/$SERVERNAME/g" $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py 2>> $output_for_logs
   fi
+  #FIXME: Instead of testing for file existence, test mod time difference
+  if [[ ! -e "$LOCATIONOFTROPOSPHERE/troposphere/settings/local.py" ]]; then
+      #Troposphere settings missing! Make a copy of secrets, or a copy of dist
+      if [ -e "$LOCATIONOFTROPOSPHERELOCALFILE/local.py" ]; then
+        cp $LOCATIONOFTROPOSPHERELOCALFILE/local.py $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py 2>> $output_for_logs;
+        sed -i "s/SERVERNAME/$SERVERNAME/g" $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py 2>> $output_for_logs
+      else
+        cp $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py.dist $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py
+        sed -i "s/SERVERNAME/$SERVERNAME/g" $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py 2>> $output_for_logs
+      fi
+  fi
+  #FIXME: Probably need to change some of these 'local.py' values based on what
+  #       we know about the server already.
 
   #if [ -e "$LOCATIONOFTROPOSPHEREKEY/troposhere.key" ]; then
   #  cp $LOCATIONOFTROPOSPHEREKEY/troposhere.key $LOCATIONOFTROPOSPHERE 2>> $output_for_logs;
@@ -53,6 +60,8 @@ main(){
   cd $BASEDIRECTORY
 
   #User input needed warning here..
+  #FIXME: This gets absolutely buried in text, perhaps we should print this at
+  #       the end of the install.
   echo "Edit $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py with your own settings. You'll have to generate a new keypair from Groupy for the Troposphere application.\n The configuration variable OAUTH_PRIVATE_KEY_PATH should refer to the absolute path of that key."
 }
 
