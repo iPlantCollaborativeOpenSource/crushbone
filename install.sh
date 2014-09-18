@@ -136,6 +136,13 @@ main() {
     echo "Source Code Dir: $working_dir"
     echo "Environment Dir: $virtualenv_dir"
     echo "---------------------------------------------------"
+    echo -n "Ctrl+C to exit and change your configuration...3..."
+    sleep 1
+    echo -n "2..."
+    sleep 1
+    echo -n "1..."
+    sleep 1
+    echo "Executing build."
 }
 install_dependencies() {
     ./src/02_dependencies.sh
@@ -184,17 +191,17 @@ run_steps() {
     #       non-standard install occurred..
     install_dependencies()
     if [ "$jenkins" = "true" ]; then
-        rebuild_jenkins()
-        exit 0
+        rebuild_jenkins
+        return 0
     fi
     # Override them with arguments
     #Troposphere has no dependency on atmosphere, so build it first
     if [ "$install_tropo" = "true" ]; then
-        build_troposphere()
+        build_troposphere
     fi
 
     if [ "$install_atmo" = "true" ]; then
-        build_atmosphere()
+        build_atmosphere
     fi
     
     #ONLY create apache/SSL configurations if atmosphere AND troposphere is being built AND we are
@@ -202,10 +209,10 @@ run_steps() {
 
     if [[ "$test_only" = "false" && "$install_tropo" = "true" &&"$install_atmo" = "true" ]]
     then
-        build_production_server()
+        build_production_server
     fi
 
-    exit 0
+    return 0
 }
 
 
