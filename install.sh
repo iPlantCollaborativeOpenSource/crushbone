@@ -235,5 +235,5 @@ run_steps() {
 
 
 #EXECUTION PATH:
-main $@
+main "$@"
 run_steps
