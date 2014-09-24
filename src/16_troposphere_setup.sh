@@ -37,11 +37,11 @@ main(){
   if [[ ! -e "$LOCATIONOFTROPOSPHERE/troposphere/settings/local.py" ]]; then
       #Troposphere settings missing! Make a copy of secrets, or a copy of dist
       if [ -e "$LOCATIONOFTROPOSPHERELOCALFILE/local.py" ]; then
-        cp $LOCATIONOFTROPOSPHERELOCALFILE/local.py $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py 2>> $output_for_logs;
-        sed -i "s/SERVERNAME/$SERVERNAME/g" $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py 2>> $output_for_logs
+        cp "$LOCATIONOFTROPOSPHERELOCALFILE/local.py" "$LOCATIONOFTROPOSPHERE/troposphere/settings/local.py" 2>> $output_for_logs;
+        sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFTROPOSPHERE/troposphere/settings/local.py" 2>> $output_for_logs
       else
-        cp $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py.dist $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py
-        sed -i "s/SERVERNAME/$SERVERNAME/g" $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py 2>> $output_for_logs
+        cp "$LOCATIONOFTROPOSPHERE/troposphere/settings/local.py.dist" "$LOCATIONOFTROPOSPHERE/troposphere/settings/local.py"
+        sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFTROPOSPHERE/troposphere/settings/local.py" 2>> $output_for_logs
       fi
   fi
   #FIXME: Probably need to change some of these 'local.py' values based on what

@@ -20,18 +20,18 @@ main(){
   #pip install --upgrade virtualenv 2> $output_for_logs
   
   mkdir -p $VIRTUAL_ENV_ATMOSPHERE
-  if [ ! -f $VIRTUAL_ENV_ATMOSPHERE/bin/activate ]; then
+  if [ ! -f "$VIRTUAL_ENV_ATMOSPHERE/bin/activate" ]; then
     virtualenv $VIRTUAL_ENV_ATMOSPHERE 2>> $output_for_logs
   fi
   
-  source $VIRTUAL_ENV_ATMOSPHERE/bin/activate 2>> $output_for_logs
+  source "$VIRTUAL_ENV_ATMOSPHERE/bin/activate" 2>> $output_for_logs
   #$VIRTUAL_ENV_ATMOSPHERE/bin/pip install pip==1.4.1
 
   ################################
   # Setup M2CryptoConfiguration
   ################################
 
-  m2crypto_loc=$VIRTUAL_ENV_ATMOSPHERE/lib/python2.7/site-packages/M2Crypto
+  m2crypto_loc="$VIRTUAL_ENV_ATMOSPHERE/lib/python2.7/site-packages/M2Crypto"
   if [ ! -L $m2crypto_loc ]; then
     sudo ln -s /usr/lib/python2.7/dist-packages/M2Crypto $m2crypto_loc 2> $output_for_logs
   else

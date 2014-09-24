@@ -57,6 +57,8 @@ _derived_variables() {
     tropo_files_dir="$setup_files_dir/tropo"
 
     ssh_keys_storage_dir="$ssh_key_dir/.ssh"
+
+    host_name=$(sed -E 's/^((ftp|www)\.)?([^.]*)\..*/\3/' <<< "$server_name")
 }
 main() {
 

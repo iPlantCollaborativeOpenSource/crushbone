@@ -44,15 +44,15 @@ run_steps(){
   ####################################
 
 
-  if [ -e $LOCATIONOFSETUPFILE/local.py ]; then
+  if [ -e "$LOCATIONOFSETUPFILE/local.py" ]; then
     echo "Command: cp $LOCATIONOFSETUPFILE/local.py $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py" >> $output_for_logs
-    cp $LOCATIONOFSETUPFILE/local.py $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py 2>> $output_for_logs;
-    sed -i "s/SERVERNAME/$SERVERNAME/g" $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py 2>> $output_for_logs
+    cp "$LOCATIONOFSETUPFILE/local.py" "$LOCATIONOFATMOSPHERE/atmosphere/settings/local.py" 2>> $output_for_logs;
+    sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFATMOSPHERE/atmosphere/settings/local.py" 2>> $output_for_logs
   else
 
     echo "$LOCATIONOFSETUPFILE/local.py does not exist" >> $output_for_logs
     echo "Command: cp $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py.dist $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py" >> $output_for_logs;
-    cp $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py.dist $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py 2>> $output_for_logs;
+    cp "$LOCATIONOFATMOSPHERE/atmosphere/settings/local.py.dist" "$LOCATIONOFATMOSPHERE/atmosphere/settings/local.py" 2>> $output_for_logs;
     SETTINGSNAME='"NAME": ""'
     NEWSETTINGSNAME="\"NAME\": \"$DBNAME\""
     SETTINGSUSER='"USER": ""'
@@ -65,20 +65,20 @@ run_steps(){
     NEWSETTINGSPORT="\"PORT\": \"5432\""
 
     ### Search and replace
-    sed -i "s/$SETTINGSNAME/$NEWSETTINGSNAME/g" $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py 2>> $output_for_logs
-    sed -i "s/$SETTINGSUSER/$NEWSETTINGSUSER/g" $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py 2>> $output_for_logs
-    sed -i "s/$SETTINGSPASSWORD/$NEWSETTINGSPASSWORD/g" $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py 2>> $output_for_logs
-    sed -i "s/$SETTINGSHOST/$NEWSETTINGSHOST/g" $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py 2>> $output_for_logs
-    sed -i "s/$SETTINGSPORT/$NEWSETTINGSPORT/g" $LOCATIONOFATMOSPHERE/atmosphere/settings/local.py 2>> $output_for_logs
+    sed -i "s/$SETTINGSNAME/$NEWSETTINGSNAME/g" "$LOCATIONOFATMOSPHERE/atmosphere/settings/local.py" 2>> $output_for_logs
+    sed -i "s/$SETTINGSUSER/$NEWSETTINGSUSER/g" "$LOCATIONOFATMOSPHERE/atmosphere/settings/local.py" 2>> $output_for_logs
+    sed -i "s/$SETTINGSPASSWORD/$NEWSETTINGSPASSWORD/g" "$LOCATIONOFATMOSPHERE/atmosphere/settings/local.py" 2>> $output_for_logs
+    sed -i "s/$SETTINGSHOST/$NEWSETTINGSHOST/g" "$LOCATIONOFATMOSPHERE/atmosphere/settings/local.py" 2>> $output_for_logs
+    sed -i "s/$SETTINGSPORT/$NEWSETTINGSPORT/g" "$LOCATIONOFATMOSPHERE/atmosphere/settings/local.py" 2>> $output_for_logs
   fi
 
-  if [ -e $LOCATIONOFSETUPFILE/secrets.py ]; then
+  if [ -e "$LOCATIONOFSETUPFILE/secrets.py" ]; then
     echo "Command: cp $LOCATIONOFSETUPFILE/secrets.py $LOCATIONOFATMOSPHERE/atmosphere/settings/secrets.py" >> $output_for_logs    
-    cp $LOCATIONOFSETUPFILE/secrets.py $LOCATIONOFATMOSPHERE/atmosphere/settings/secrets.py 2>> $output_for_logs
+    cp "$LOCATIONOFSETUPFILE/secrets.py" "$LOCATIONOFATMOSPHERE/atmosphere/settings/secrets.py" 2>> $output_for_logs
   else
     echo "$LOCATIONOFSETUPFILE/secrets.py does not exist" >> $output_for_logs
     echo "Command: cp $LOCATIONOFATMOSPHERE/atmosphere/settings/secrets.py.dist $LOCATIONOFATMOSPHERE/atmosphere/settings/secrets.py" >> $output_for_logs
-    cp $LOCATIONOFATMOSPHERE/atmosphere/settings/secrets.py.dist $LOCATIONOFATMOSPHERE/atmosphere/settings/secrets.py 2>> $output_for_logs
+    cp "$LOCATIONOFATMOSPHERE/atmosphere/settings/secrets.py.dist" "$LOCATIONOFATMOSPHERE/atmosphere/settings/secrets.py" 2>> $output_for_logs
   fi
   #NOTE: Not using testing.py
   #if [ -e $LOCATIONOFSETUPFILE/testing.py ]; then
@@ -91,27 +91,27 @@ run_steps(){
   #fi
 
   
-  mkdir -p $LOCATIONOFATMOSPHERE/extras/ssh/
+  mkdir -p "$LOCATIONOFATMOSPHERE/extras/ssh/"
 
-  if [ -e $LOCATIONOFSETUPFILE/id_rsa ]; then
+  if [ -e "$LOCATIONOFSETUPFILE/id_rsa" ]; then
     echo "Command: cp $LOCATIONOFSETUPFILE/id_rsa $LOCATIONOFATMOSPHERE/extras/ssh/" >> $output_for_logs
-    cp $LOCATIONOFSETUPFILE/id_rsa $LOCATIONOFATMOSPHERE/extras/ssh/ 2>> $output_for_logs
+    cp "$LOCATIONOFSETUPFILE/id_rsa" "$LOCATIONOFATMOSPHERE/extras/ssh/" 2>> $output_for_logs
   else
     echo "NOTICE:id_rsa does not exist and may cause scripts to fail down the way!" >> $output_for_logs
   fi
 
 
-  if [ -e $LOCATIONOFSETUPFILE/id_rsa.pub ]; then
+  if [ -e "$LOCATIONOFSETUPFILE/id_rsa.pub" ]; then
     echo "Command: cp $LOCATIONOFSETUPFILE/id_rsa.pub $LOCATIONOFATMOSPHERE/extras/ssh/" >> $output_for_logs
-    cp $LOCATIONOFSETUPFILE/id_rsa.pub $LOCATIONOFATMOSPHERE/extras/ssh/ 2>> $output_for_logs 
+    cp "$LOCATIONOFSETUPFILE/id_rsa.pub" "$LOCATIONOFATMOSPHERE/extras/ssh/" 2>> $output_for_logs 
   else
     echo "NOTICE:id_rsa.pub does not exist and may cause scripts to fail down the way!" >> $output_for_logs
   fi
 
   mkdir -p $LOCATIONOFLOGS
-  if [ ! -e $LOCATIONOFLOGS/atmosphere.log ]; then
-    touch $LOCATIONOFLOGS/atmosphere.log
-    touch $LOCATIONOFLOGS/atmosphere_status.log
+  if [ ! -e "$LOCATIONOFLOGS/atmosphere.log" ]; then
+    touch "$LOCATIONOFLOGS/atmosphere.log"
+    touch "$LOCATIONOFLOGS/atmosphere_status.log"
   else
     echo "Atmosphere.log already exists" >> $output_for_logs 
   fi
@@ -123,7 +123,7 @@ run_steps(){
 
   insertBeforeThisLine="sys.path.insert(1, root_dir)"
   insertNewLine="sys.path.insert(0, '$VIRTUAL_ENV_ATMOSPHERE/lib/python2.7/site-packages/')"
-  sed -i "/.*$insertBeforeThisLine.*/i$insertNewLine" $LOCATIONOFATMOSPHERE/atmosphere/wsgi.py 2>> $output_for_logs
+  sed -i "/.*$insertBeforeThisLine.*/i$insertNewLine" "$LOCATIONOFATMOSPHERE/atmosphere/wsgi.py" 2>> $output_for_logs
  
 
 

@@ -16,7 +16,7 @@ main(){
   
   LOCATIONOFATMOSPHERE=$1
   VIRTUAL_ENV_ATMOSPHERE=$2
-  $VIRTUAL_ENV_ATMOSPHERE/bin/pip install -r $LOCATIONOFATMOSPHERE/requirements.txt --upgrade >> $output_for_logs
+  "$VIRTUAL_ENV_ATMOSPHERE/bin/pip" install -r "$LOCATIONOFATMOSPHERE/requirements.txt" --upgrade >> $output_for_logs
 
 }
 if [ "$#" -ne 2 ]; then

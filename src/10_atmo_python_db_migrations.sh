@@ -24,14 +24,14 @@ main(){
   export PYTHONPATH=$LOCATIONOFATMOSPHERE
   export DJANGO_SETTINGS_MODULE='atmosphere.settings'
 
-  $VIRTUAL_ENV_ATMOSPHERE/bin/python $LOCATIONOFATMOSPHERE/manage.py syncdb 2>> $output_for_logs
-  $VIRTUAL_ENV_ATMOSPHERE/bin/python $LOCATIONOFATMOSPHERE/manage.py migrate 2>> $output_for_logs
+  "$VIRTUAL_ENV_ATMOSPHERE/bin/python" "$LOCATIONOFATMOSPHERE/manage.py" syncdb 2>> $output_for_logs
+  "$VIRTUAL_ENV_ATMOSPHERE/bin/python" "$LOCATIONOFATMOSPHERE/manage.py" migrate 2>> $output_for_logs
 
-  $VIRTUAL_ENV_ATMOSPHERE/bin/python $LOCATIONOFATMOSPHERE/manage.py loaddata $LOCATIONOFATMOSPHERE/core/fixtures/provider.json 2>> $output_for_logs
-  $VIRTUAL_ENV_ATMOSPHERE/bin/python $LOCATIONOFATMOSPHERE/manage.py loaddata $LOCATIONOFATMOSPHERE/core/fixtures/quota.json 2>> $output_for_logs
+  "$VIRTUAL_ENV_ATMOSPHERE/bin/python" "$LOCATIONOFATMOSPHERE/manage.py" loaddata "$LOCATIONOFATMOSPHERE/core/fixtures/provider.json" 2>> $output_for_logs
+  "$VIRTUAL_ENV_ATMOSPHERE/bin/python" "$LOCATIONOFATMOSPHERE/manage.py" loaddata "$LOCATIONOFATMOSPHERE/core/fixtures/quota.json" 2>> $output_for_logs
 
-  $VIRTUAL_ENV_ATMOSPHERE/bin/python $LOCATIONOFATMOSPHERE/manage.py createcachetable atmosphere_cache_requests 2>> $output_for_logs
-  $VIRTUAL_ENV_ATMOSPHERE/bin/python $LOCATIONOFATMOSPHERE/manage.py collectstatic --noinput 2>> $output_for_logs
+  "$VIRTUAL_ENV_ATMOSPHERE/bin/python" "$LOCATIONOFATMOSPHERE/manage.py" createcachetable atmosphere_cache_requests 2>> $output_for_logs
+  "$VIRTUAL_ENV_ATMOSPHERE/bin/python" "$LOCATIONOFATMOSPHERE/manage.py" collectstatic --noinput 2>> $output_for_logs
   
   # TODO 
   # Fix import users section

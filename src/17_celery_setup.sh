@@ -25,17 +25,17 @@ main(){
   ufw allow Celery
   
   if [ ! -e "/etc/init.d/celeryd" ]; then
-    ln -s $LOCATIONOFATMOSPHERE/extras/init.d/ubuntu.celeryd /etc/init.d/celeryd
-    ln -s $LOCATIONOFATMOSPHERE/extras/init.d/ubuntu.celerybeat /etc/init.d/celerybeat
+    ln -s "$LOCATIONOFATMOSPHERE/extras/init.d/ubuntu.celeryd" /etc/init.d/celeryd
+    ln -s "$LOCATIONOFATMOSPHERE/extras/init.d/ubuntu.celerybeat" /etc/init.d/celerybeat
   fi
 
   if [ ! -e "$LOCATIONOFATMOSPHERE/extras/init.d/celeryd.default" ]; then
-    cp $LOCATIONOFATMOSPHERE/extras/init.d/celeryd.default.dist $LOCATIONOFATMOSPHERE/extras/init.d/celeryd.default
+    cp "$LOCATIONOFATMOSPHERE/extras/init.d/celeryd.default.dist" "$LOCATIONOFATMOSPHERE/extras/init.d/celeryd.default"
     ln -s /opt/dev/atmosphere/extras/init.d/celeryd.default /etc/default/celeryd
   fi
 
   if [ ! -e "/etc/init.d/atmosphere" ]; then
-    ln -s $LOCATIONOFATMOSPHERE/extras/init.d/atmosphere /etc/init.d/atmosphere
+    ln -s "$LOCATIONOFATMOSPHERE/extras/init.d/atmosphere" /etc/init.d/atmosphere
   fi 
 }
 
