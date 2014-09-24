@@ -20,10 +20,10 @@ main(){
   # Git clone setups
   ####################################
 
-  if [ ! $BRANCH_NAME = "" ]; then
-    git clone -b $BRANCH_NAME https://github.com/iPlantCollaborativeOpenSource/atmosphere.git $LOCATIONOFATMOSPHERE 2>> $output_for_logs
+  if [ ! "$BRANCH_NAME" = "" ]; then
+    git clone -b "$BRANCH_NAME" https://github.com/iPlantCollaborativeOpenSource/atmosphere.git "$LOCATIONOFATMOSPHERE" 2>> $output_for_logs
   else
-    git clone https://github.com/iPlantCollaborativeOpenSource/atmosphere.git $LOCATIONOFATMOSPHERE 2>> $output_for_logs
+    git clone https://github.com/iPlantCollaborativeOpenSource/atmosphere.git "$LOCATIONOFATMOSPHERE" 2>> $output_for_logs
   fi
 
 }

@@ -19,9 +19,9 @@ main(){
 
   VIRTUAL_ENV_TROPOSHERE=$1
 
-  mkdir -p $VIRTUAL_ENV_TROPOSHERE
+  mkdir -p "$VIRTUAL_ENV_TROPOSHERE"
   if [ ! -f "$VIRTUAL_ENV_TROPOSHERE/bin/activate" ]; then
-    virtualenv $VIRTUAL_ENV_TROPOSHERE 2>> $output_for_logs
+    virtualenv "$VIRTUAL_ENV_TROPOSHERE" 2>> $output_for_logs
   fi
 
   source "$VIRTUAL_ENV_TROPOSHERE/bin/activate" 2>> $output_for_logs

@@ -108,7 +108,7 @@ run_steps(){
     echo "NOTICE:id_rsa.pub does not exist and may cause scripts to fail down the way!" >> $output_for_logs
   fi
 
-  mkdir -p $LOCATIONOFLOGS
+  mkdir -p "$LOCATIONOFLOGS"
   if [ ! -e "$LOCATIONOFLOGS/atmosphere.log" ]; then
     touch "$LOCATIONOFLOGS/atmosphere.log"
     touch "$LOCATIONOFLOGS/atmosphere_status.log"
@@ -135,7 +135,7 @@ run_steps(){
 
   # TODO
   # Check to see if user and group exists
-  chown -R www-data:www-data $LOCATIONOFATMOSPHERE 2>> $output_for_logs
+  chown -R www-data:www-data "$LOCATIONOFATMOSPHERE" 2>> $output_for_logs
 }
 
 #EXECUTION PATH:

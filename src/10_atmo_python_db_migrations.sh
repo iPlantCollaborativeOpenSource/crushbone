@@ -21,7 +21,7 @@ main(){
   # Setup Python Packages
   ################################
 
-  export PYTHONPATH=$LOCATIONOFATMOSPHERE
+  export PYTHONPATH="$LOCATIONOFATMOSPHERE"
   export DJANGO_SETTINGS_MODULE='atmosphere.settings'
 
   "$VIRTUAL_ENV_ATMOSPHERE/bin/python" "$LOCATIONOFATMOSPHERE/manage.py" syncdb 2>> $output_for_logs

@@ -31,7 +31,7 @@ main(){
   BASEDIRECTORY=`pwd`
   
   if [[ ! -d "$LOCATIONOFTROPOSPHERE" ]]; then
-  git clone https://github.com/iPlantCollaborativeOpenSource/troposphere.git $LOCATIONOFTROPOSPHERE
+  git clone https://github.com/iPlantCollaborativeOpenSource/troposphere.git "$LOCATIONOFTROPOSPHERE"
   fi
   #FIXME: Instead of testing for file existence, test mod time difference
   if [[ ! -e "$LOCATIONOFTROPOSPHERE/troposphere/settings/local.py" ]]; then
@@ -54,10 +54,10 @@ main(){
   #fi
   mkdir -p "$LOCATIONOFTROPOSPHERE/logs/"
   touch  "$LOCATIONOFTROPOSPHERE/logs/troposphere.log"
-  chown -R www-data:www-data $LOCATIONOFTROPOSPHERE
-  cd $LOCATIONOFTROPOSPHERE
+  chown -R www-data:www-data "$LOCATIONOFTROPOSPHERE"
+  cd "$LOCATIONOFTROPOSPHERE"
   make
-  cd $BASEDIRECTORY
+  cd "$BASEDIRECTORY"
 
   #User input needed warning here..
   #FIXME: This gets absolutely buried in text, perhaps we should print this at
