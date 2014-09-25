@@ -33,5 +33,5 @@ if [ "$#" -ne 1 ]; then
   exit -1
 else
   #EXECUTION
-  main $@
+  main "$@"
 fi

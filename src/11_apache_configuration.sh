@@ -61,6 +61,6 @@ if [ "$#" -ne 4 ]; then
   exit -1
 else
   #EXECUTION
-  main $@
+  main "$@"
 fi
 

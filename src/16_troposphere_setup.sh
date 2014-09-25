@@ -71,5 +71,5 @@ if [ "$#" -ne 3 ]; then
   exit -1
 else
   #EXECUTION
-  main $@
+  main "$@"
 fi

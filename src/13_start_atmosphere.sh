@@ -4,6 +4,7 @@
 # Usage
 #
 # RESET_FLAG - $1
+# LOCATIONOFATMOSPHERE - $2 
 ################################
 
 ################################
@@ -18,6 +19,9 @@ touch $output_for_logs
 main(){
 
   RESET_FLAG=$1
+  LOCATIONOFATMOSPHERE=$2
+  
+  "$LOCATIONOFATMOSPHERE/scripts/set_permissions.sh" $LOCATIONOFATMOSPHERE
   if [ "$RESET_FLAG" = "atmosphere" ]; then
       service atmosphere celery-restart 2>> $output_for_logs
   elif [ "$RESET_FLAG" = "celery" ]; then
@@ -27,10 +31,10 @@ main(){
   fi
 }
 
-if [ "$#" -ne 1 ]; then
+if [ "$#" -ne 2 ]; then
     echo "Illegal number of parameters" 2>> $output_for_logs
     echo $@ 2> $output_for_logs
     exit -1
 else
-    main $@
+    main "$@"
 fi

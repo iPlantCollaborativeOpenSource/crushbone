@@ -25,5 +25,5 @@ if [ "$#" -ne 2 ]; then
   echo $@ 2> $output_for_logs
   exit 01
 else
-  main $@
+  main "$@"
 fi
