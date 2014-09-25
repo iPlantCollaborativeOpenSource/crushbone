@@ -172,7 +172,7 @@ build_production_server() {
       ./src/12_ssl_configuration.sh $atmo_working_dir $ssh_key_dir
       ./src/13_start_atmosphere.sh "apache"
       ./src/17_celery_setup.sh $atmo_working_dir
-      ./src/13_start_atmosphere.sh "atmosphere"
+      ./src/13_start_atmosphere.sh "atmosphere" $atmo_working_dir
 }
 atmo_rebuild_jenkins() {
     #Jenkins already has postgresql setup properly
