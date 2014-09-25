@@ -23,7 +23,7 @@ main(){
   #####################
   ## Install yuglify
   #####################
-  npm -g install yuglify
+  npm -g install yuglify 2>> $output_for_logs 
 
   ################################
   # Setup Troposphere Project

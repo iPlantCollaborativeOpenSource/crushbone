@@ -199,7 +199,7 @@ run_steps() {
     #FIXME: instead of exit 0 we should track $? for non-zero and always bubble
     #       up non-zero when they are encountered so jenkins/script knows a
     #       non-standard install occurred..
-    #install_dependencies
+    install_dependencies
 
     if [[ "$jenkins" = "true" && "$install_atmo" = "true" ]]; then
         echo "Rebuilding Jenkins on Atmosphere"
