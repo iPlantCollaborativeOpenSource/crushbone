@@ -155,6 +155,7 @@ build_troposphere() {
     . src/15_troposphere_virtual_env.sh $tropo_virtualenv
     . src/16_troposphere_setup.sh $tropo_working_dir $tropo_files_dir $server_name
     . src/14_virtual_env_deactivate.sh
+    . src/19_troposphere_new_relic.sh $setup_files_dir $tropo_working_dir
 }
 build_atmosphere() {
     echo "These commands will be run when Atmosphere should be installed"
@@ -166,6 +167,7 @@ build_atmosphere() {
     ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv
     ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv
     . src/14_virtual_env_deactivate.sh
+    ./src/18_atmo_setup_new_relic.sh $setup_files_dir $atmo_working_dir
 }
 build_production_server() {
       ./src/11_apache_configuration.sh $atmo_working_dir $atmo_virtualenv $tropo_working_dir $server_name
