@@ -52,10 +52,4 @@ main(){
 }
 
 # Execution Thread
-if [ "$#" -ne 2 ]; then
-  echo "Illegal number of parameters" 2> $output_for_logs
-  echo $@ 2> $output_for_logs
-  exit -1
-else
- main "$@"
-fi
+main "$@"

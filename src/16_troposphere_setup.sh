@@ -86,11 +86,4 @@ main(){
   echo "Edit $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py with your own settings. You'll have to generate a new keypair from Groupy for the Troposphere application.\n The configuration variable OAUTH_PRIVATE_KEY_PATH should refer to the absolute path of that key."
 }
 
-if [ "$#" -ne 4 ]; then
-  echo "Illegal number of parameters" 2>> $output_for_logs
-  echo $@ 2> $output_for_logs
-  exit -1
-else
-  #EXECUTION
-  main "$@"
-fi
+main "$@"
