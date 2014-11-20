@@ -6,6 +6,7 @@
 # LOCATIONOFTROPOSPHERE - $1
 # LOCATIONOFTROPOSPHEREKEY - $2
 # SERVERNAME - $3 
+# BRANCH_NAME -$4
 ################################
 
 this_filename=$(basename $BASH_SOURCE)
@@ -19,6 +20,7 @@ main(){
   LOCATIONOFTROPOSPHERELOCALFILE=$2
   LOCATIONOFTROPOSPHEREKEY=$2
   SERVERNAME=$3
+  BRANCH_NAME=$4
 
   #####################
   ## Install yuglify
@@ -30,9 +32,28 @@ main(){
   ################################
   BASEDIRECTORY=`pwd`
   
-  if [[ ! -d "$LOCATIONOFTROPOSPHERE" ]]; then
-  git clone https://github.com/iPlantCollaborativeOpenSource/troposphere.git "$LOCATIONOFTROPOSPHERE"
+
+  if [ -d "$LOCATIONOFTROPOSPHERE/.git" ]; then
+     echo "git repository already established. Pulling latest.."
+     cd "$LOCATIONOFTROPOSPHERE"
+     git fetch
+     if [ ! "$BRANCH_NAME" = "" ]; then
+        git checkout -f $BRANCH_NAME
+        git pull origin $BRANCH_NAME
+     else
+        git pull origin master
+     fi
+     cd "$BASEDIRECTORY"
+  else
+     echo "Cloning git repository"
+     if [ ! "$BRANCH_NAME" = "" ]; then
+        git clone -b "$BRANCH_NAME" https://github.com/iPlantCollaborativeOpenSource/troposphere.git "$LOCATIONOFTROPOSPHERE" 2>> $output_for_logs
+     else
+        git clone https://github.com/iPlantCollaborativeOpenSource/troposphere.git "$LOCATIONOFTROPOSPHERE" 2>> $output_for_logs
+     fi
+
   fi
+
   #FIXME: Instead of testing for file existence, test mod time difference
   if [[ ! -e "$LOCATIONOFTROPOSPHERE/troposphere/settings/local.py" ]]; then
       #Troposphere settings missing! Make a copy of secrets, or a copy of dist
@@ -65,7 +86,7 @@ main(){
   echo "Edit $LOCATIONOFTROPOSPHERE/troposphere/settings/local.py with your own settings. You'll have to generate a new keypair from Groupy for the Troposphere application.\n The configuration variable OAUTH_PRIVATE_KEY_PATH should refer to the absolute path of that key."
 }
 
-if [ "$#" -ne 3 ]; then
+if [ "$#" -ne 4 ]; then
   echo "Illegal number of parameters" 2>> $output_for_logs
   echo $@ 2> $output_for_logs
   exit -1

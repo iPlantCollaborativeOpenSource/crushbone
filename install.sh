@@ -153,7 +153,7 @@ install_dependencies() {
 build_troposphere() {
     echo "These commands will be run when Troposphere should be installed"
     . src/15_troposphere_virtual_env.sh $tropo_virtualenv
-    . src/16_troposphere_setup.sh $tropo_working_dir $tropo_files_dir $server_name
+    . src/16_troposphere_setup.sh $tropo_working_dir $tropo_files_dir $server_name $branch_name
     . src/14_virtual_env_deactivate.sh
     . src/19_troposphere_new_relic.sh $setup_files_dir $tropo_working_dir
 }
