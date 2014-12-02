@@ -85,6 +85,13 @@ run_steps(){
     fi
   fi
 
+  if [ -e "$LOCATIONOFSETUPFILE/secret_key.py" ] && [ ! -f "$LOCATIONOFATMOSPHERE/atmosphere/settings/secret_key.py" ]; then
+    echo "Command: cp $LOCATIONOFSETUPFILE/secret_key.py $LOCATIONOFATMOSPHERE/atmosphere/settings/secret_key.py" >> $output_for_logs
+    cp "$LOCATIONOFSETUPFILE/secret_key.py" "$LOCATIONOFATMOSPHERE/atmosphere/settings/secret_key.py" 2>> $output_for_logs
+  else
+      echo "$LOCATIONOFSETUPFILE/secret_key.py does not exist. THIS WILL BREAK EVERYTHING" >> $output_for_logs
+  fi
+
 
   #NOTE: Not using testing.py
   #if [ -e $LOCATIONOFSETUPFILE/testing.py ]; then
