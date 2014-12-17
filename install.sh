@@ -187,7 +187,7 @@ atmo_rebuild_jenkins() {
     #Jenkins already has the correct apache settings, no overwrites
     #required
     . src/14_virtual_env_deactivate.sh
-    ./src/17_celery_setup.sh $atmo_working_dir
+    ./src/17_celery_setup.sh $tropo_working_dir
     ./src/13_start_atmosphere.sh "atmosphere" $atmo_working_dir
 }
 tropo_rebuild_jenkins() {
