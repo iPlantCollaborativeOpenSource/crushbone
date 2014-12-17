@@ -172,7 +172,7 @@ build_atmosphere() {
 build_production_server() {
       ./src/11_apache_configuration.sh $atmo_working_dir $atmo_virtualenv $tropo_working_dir $server_name
       ./src/12_ssl_configuration.sh $atmo_working_dir $ssh_key_dir
-      ./src/13_start_atmosphere.sh "apache"
+      ./src/13_start_atmosphere.sh "apache" $atmo_working_dir
       ./src/17_celery_setup.sh $atmo_working_dir
       ./src/13_start_atmosphere.sh "atmosphere" $atmo_working_dir
 }
