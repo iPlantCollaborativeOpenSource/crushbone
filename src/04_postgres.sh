@@ -23,7 +23,7 @@ main(){
   ################################
   # Setup Postgres
   ################################
-  grep -r 'local[ ]*all[ ]*atmo_app[ ]*md5' /etc/postgresql/9.1/main
+  grep -r 'local[ ]*all[ ]*atmo_app[ ]*md5' /etc/postgresql/9.*/main
   if [ "$?" = "1" ]; then
       su postgres -c 'cd' 2> $output_for_logs
       su postgres -c 'psql -c "CREATE DATABASE '$DBNAME';"' 2>> $output_for_logs 
