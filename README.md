@@ -42,22 +42,29 @@ These files also need to be placed in directory also with the other files.
 
 Your file structure with all the collected files should look like this:
 
+```
 crushbone_initial_setting_files
-.
-+-- _local.py
-+-- _secrets.py
-+-- _id_rsa
-+-- _id_rsa.pub
-+-- _gd_bundle.crt
-+-- _organization.crt
-+-- _organization.key
-+-- _tropo
-|   +-- local.py 
+|  local.py
+|  secrets.py
+|  id_rsa
+|  id_rsa.pub
+|  gd_bundle.crt
+|  organization.crt
+|  organization.key
+└──tropo
+   | local.py
+ 
+```
+
 
 If you do not have these files, you are welcome to create the directories and just have them empty and replace the files later and run crushbone again at a later time. For example:
 
+```
 crushbone_initial_setting_files
-+-- _tropo
+|
+└──tropo
+
+```
 
 To run crushbone's help prompt
 ```
