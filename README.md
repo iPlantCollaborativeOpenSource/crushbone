@@ -5,7 +5,9 @@ crushbone
 
 Its a good idea to walk through the install.sh script and read what is going on. This script assumes a clean install on a barebones machine.
 
-######Atmosphere configuration files if you have them, but are not necessary as the script will create them if they are not found
+######Atmosphere configuration 
+
+If you have them, but are not necessary as the script will create them if they are not found
 
 * local.py
 * secrets.py
