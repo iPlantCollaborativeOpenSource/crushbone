@@ -5,7 +5,7 @@ crushbone
 
 Its a good idea to walk through the install.sh script and read what is going on. This script assumes a clean install on a barebones machine.
 
-######Atmosphere configuration 
+######Atmosphere configuration files
 
 If you have them, but are not necessary as the script will create them if they are not found
 
@@ -22,7 +22,7 @@ If you have them, but are not necessary as the script will create them if they a
 
 This file needs to be placed in a directory called "tropo". This tropo directory should be placed in the directory along side the atmosphere files.
 
-######Files needed for SSL Configuration:
+######SSL configuration files
 
 * A organizational cert
 * A bundle cert
@@ -30,7 +30,7 @@ This file needs to be placed in a directory called "tropo". This tropo directory
 
 These files also need to be placed in directory also with the other files. Please set the variables to the names of the certs in src/0_1configurationVariables.sh
 
-######Files needed for SSH keys Configuration
+######SSH keys configuration
 
 * A private id_rsa file
 * A publice id_rsa file
@@ -38,11 +38,12 @@ These files also need to be placed in directory also with the other files. Pleas
 
 These files also need to be placed in directory also with the other files. 
 
-#####Run Crushbone
+####Run Crushbone
 
 Your file structure with all the collected files should look like this:
 
 crushbone_initial_setting_files
+.
 +-- _local.py
 +-- _secrets.py
 +-- _id_rsa
