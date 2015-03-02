@@ -46,15 +46,29 @@ _swap_variables() {
 
 _derived_variables() {
     #Variables for Atmosphere
-    atmo_working_dir="$working_dir/atmosphere"
-    atmo_logs_dir="$atmo_working_dir/logs"
-    atmo_virtualenv="$virtualenv_dir/atmo"
-    atmo_files_dir="$setup_files_dir"
+    if [[ "$install_atmo" = "true" ]]; then
+        atmo_working_dir="$working_dir/atmosphere"
+        atmo_logs_dir="$atmo_working_dir/logs"
+        atmo_virtualenv="$virtualenv_dir/atmo"
+        atmo_files_dir="$setup_files_dir"
+    else
+        atmo_working_dir="N/A"
+        atmo_logs_dir="N/A"
+        atmo_virtualenv="N/A"
+        atmo_files_dir="N/A"
+    fi
 
-    tropo_working_dir="$working_dir/troposphere"
-    tropo_logs_dir="$working_dir/logs"
-    tropo_virtualenv="$virtualenv_dir/troposphere"
-    tropo_files_dir="$setup_files_dir/tropo"
+    if [[ "$install_tropo" = "true" ]]; then
+        tropo_working_dir="$working_dir/troposphere"
+        tropo_logs_dir="$working_dir/logs"
+        tropo_virtualenv="$virtualenv_dir/troposphere"
+        tropo_files_dir="$setup_files_dir/tropo"
+    else
+        tropo_working_dir="N/A"
+        tropo_logs_dir="N/A"
+        tropo_virtualenv="N/A"
+        tropo_files_dir="N/A"
+    fi
 
     ssh_keys_storage_dir="$ssh_key_dir/.ssh"
 
@@ -131,12 +145,16 @@ main() {
     echo "Your Configuration:"
     echo "Jenkins Rebuild: $jenkins"
     echo "Test Mode: $test_only"
-    echo "Install Atmosphere: $install_atmo"
-    echo "Install Troposphere: $install_tropo"
     echo "Branch Name: $branch_name"
     echo "Server Name: $server_name"
-    echo "Source Code Dir: $working_dir"
-    echo "Environment Dir: $virtualenv_dir"
+    echo "Install Atmosphere: $install_atmo"
+    echo "Atmosphere Source Code Dir: $atmo_working_dir"
+    echo "Atmosphere Environment Dir: $atmo_virtualenv"
+    echo "Atmosphere Setup Files Dir: $atmo_files_dir"
+    echo "Install Troposphere: $install_tropo"
+    echo "Troposphere Source Code Dir: $tropo_working_dir"
+    echo "Troposphere Environment Dir: $tropo_virtualenv"
+    echo "Troposphere Setup Files Dir: $tropo_files_dir"
     echo "---------------------------------------------------"
     echo -n "Ctrl+C to exit and change your configuration...3..."
     sleep 1
