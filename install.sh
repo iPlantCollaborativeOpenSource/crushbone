@@ -60,8 +60,8 @@ _derived_variables() {
 
     if [[ "$install_tropo" = "true" ]]; then
         tropo_working_dir="$working_dir/troposphere"
-        tropo_logs_dir="$working_dir/logs"
-        tropo_virtualenv="$virtualenv_dir/troposphere"
+        tropo_logs_dir="$tropo_working_dir/logs"
+        tropo_virtualenv="$virtualenv_dir"
         tropo_files_dir="$setup_files_dir/tropo"
     else
         tropo_working_dir="N/A"
@@ -210,7 +210,8 @@ atmo_rebuild_jenkins() {
 }
 tropo_rebuild_jenkins() {
     #TODO: Find out if we need to do anything special here..
-    build_troposphere
+    echo "Building Troposphere-Jenkins"
+    . src/16_troposphere_setup.sh $tropo_working_dir $tropo_files_dir $server_name $branch_name true
 }
 run_steps() {
     #NOTE: The dependencies could be split out for tropo/atmo later on..

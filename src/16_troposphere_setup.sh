@@ -5,8 +5,9 @@
 #
 # LOCATIONOFTROPOSPHERE - $1
 # LOCATIONOFTROPOSPHEREKEY - $2
-# SERVERNAME - $3 
+# SERVERNAME - $3
 # BRANCH_NAME -$4
+# JENKINS_REBUILD - $5
 ################################
 
 this_filename=$(basename $BASH_SOURCE)
@@ -21,6 +22,7 @@ main(){
   LOCATIONOFTROPOSPHEREKEY=$2
   SERVERNAME=$3
   BRANCH_NAME=$4
+  JENKINS_REBUILD=$5
 
   #####################
   ## Install yuglify
@@ -77,7 +79,11 @@ main(){
   touch  "$LOCATIONOFTROPOSPHERE/logs/troposphere.log"
   chown -R www-data:www-data "$LOCATIONOFTROPOSPHERE"
   cd "$LOCATIONOFTROPOSPHERE"
-  make
+  if [[ "$JENKINS_REBUILD" == "true" ]]; then
+      make jenkins
+  else
+      make
+  fi
   cd "$BASEDIRECTORY"
 
   #User input needed warning here..
