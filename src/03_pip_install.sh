@@ -1,4 +1,5 @@
 #!/bin/bash -x
+PS4='$(date "+%s.%N ($LINENO) + ")'
 
 this_filename=$(basename $BASH_SOURCE)
 output_for_logs="logs/$this_filename.log"
