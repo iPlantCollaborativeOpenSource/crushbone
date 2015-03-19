@@ -78,7 +78,7 @@ Assuming you are following along in naming convention to run crushbone and want 
 
 Example:
 ```
-/install.sh --setup_files_dir=/root/crushbone_initial_setting_files --ssh_key_dir=/root│/crushbone_initial_setting_files --server_name=atmo.iplantcollaborative.org
+/install.sh --setup_files_dir=/root/crushbone_initial_setting_files --ssh_key_dir=/root/crushbone_initial_setting_files --server_name=atmo.iplantcollaborative.org
 ```
 
 To pull in a particular branch of atmosphere
