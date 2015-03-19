@@ -46,27 +46,38 @@ _swap_variables() {
 
 _derived_variables() {
     #Variables for Atmosphere
-    if [[ "$install_atmo" = "true" ]]; then
+    if [[ "$install_atmo" = "true" && "$install_tropo" = "true" ]]; then
+       # BOTH Atmosphere and troposphere are being installed, so the environment will be generalized.
+       # In this case we need to append names to each virtualenv.
         atmo_working_dir="$working_dir/atmosphere"
-        atmo_logs_dir="$atmo_working_dir/logs"
         atmo_virtualenv="$virtualenv_dir/atmo"
+        tropo_working_dir="$working_dir/troposphere"
+        tropo_virtualenv="$virtualenv_dir/troposphere"
+    elif [[ "$install_atmo" = "true" ]]; then
+        atmo_working_dir="$working_dir"
+        atmo_virtualenv="$virtualenv_dir"
+        tropo_working_dir="N/A"
+        tropo_virtualenv="N/A"
+    elif [[ "$install_tropo" = "true" ]]; then
+        atmo_working_dir="N/A"
+        atmo_virtualenv="N/A"
+        tropo_working_dir="$working_dir/troposphere"
+        tropo_virtualenv="$virtualenv_dir/troposphere"
+    fi
+    #Variables derived from virtualenv/working_dir:
+    if [[ "$install_atmo" = "true" ]]; then
+        atmo_logs_dir="$atmo_working_dir/logs"
         atmo_files_dir="$setup_files_dir"
     else
-        atmo_working_dir="N/A"
         atmo_logs_dir="N/A"
-        atmo_virtualenv="N/A"
         atmo_files_dir="N/A"
     fi
 
     if [[ "$install_tropo" = "true" ]]; then
-        tropo_working_dir="$working_dir/troposphere"
         tropo_logs_dir="$tropo_working_dir/logs"
-        tropo_virtualenv="$virtualenv_dir"
         tropo_files_dir="$setup_files_dir/tropo"
     else
-        tropo_working_dir="N/A"
         tropo_logs_dir="N/A"
-        tropo_virtualenv="N/A"
         tropo_files_dir="N/A"
     fi
 
