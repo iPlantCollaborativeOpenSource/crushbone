@@ -45,10 +45,10 @@ run_steps(){
   ####################################
 
 
-  if [ -e "$LOCATIONOFSETUPFILE/variables.ini" ] && [ ! -f "$LOCATIONOFATMOSPHERE/atmosphere/settings/variables.ini" ]; then
-    echo "Command: cp $LOCATIONOFSETUPFILE/variables.ini $LOCATIONOFATMOSPHERE/atmosphere/settings/variables.ini" >> $output_for_logs
-    cp "$LOCATIONOFSETUPFILE/variables.ini" "$LOCATIONOFATMOSPHERE/atmosphere/settings/variables.ini" 2>> $output_for_logs;
-    sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFATMOSPHERE/atmosphere/settings/variables.ini" 2>> $output_for_logs
+  if [ -e "$LOCATIONOFSETUPFILE/variables.ini" ] && [ ! -f "$LOCATIONOFATMOSPHERE/variables.ini" ]; then
+    echo "Command: cp $LOCATIONOFSETUPFILE/variables.ini $LOCATIONOFATMOSPHERE/variables.ini" >> $output_for_logs
+    cp "$LOCATIONOFSETUPFILE/variables.ini" "$LOCATIONOFATMOSPHERE/variables.ini" 2>> $output_for_logs;
+    sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFATMOSPHERE/variables.ini" 2>> $output_for_logs
   fi
 
   #Need jinja2 -- Install the requirements!

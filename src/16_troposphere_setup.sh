@@ -58,10 +58,10 @@ main(){
 
   fi
 
-  if [ -e "$LOCATIONOFTROPOSPHERELOCALFILE/variables.ini" ] && [ ! -f "$LOCATIONOFTROPOSPHERE/troposphere/settings/variables.ini" ]; then
-    echo "Command: cp $LOCATIONOFTROPOSPHERELOCALFILE/variables.ini $LOCATIONOFTROPOSPHERE/troposphere/settings/variables.ini" >> $output_for_logs
-    cp "$LOCATIONOFTROPOSPHERELOCALFILE/variables.ini" "$LOCATIONOFTROPOSPHERE/troposphere/settings/variables.ini" 2>> $output_for_logs;
-    sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFTROPOSPHERE/troposphere/settings/variables.ini" 2>> $output_for_logs
+  if [ -e "$LOCATIONOFTROPOSPHERELOCALFILE/variables.ini" ] && [ ! -f "$LOCATIONOFTROPOSPHERE/variables.ini" ]; then
+    echo "Command: cp $LOCATIONOFTROPOSPHERELOCALFILE/variables.ini $LOCATIONOFTROPOSPHERE/variables.ini" >> $output_for_logs
+    cp "$LOCATIONOFTROPOSPHERELOCALFILE/variables.ini" "$LOCATIONOFTROPOSPHERE/variables.ini" 2>> $output_for_logs;
+    sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFTROPOSPHERE/variables.ini" 2>> $output_for_logs
   fi
 
   #Need jinja2
