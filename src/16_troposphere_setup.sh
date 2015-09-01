@@ -29,13 +29,13 @@ main(){
   #####################
   ## Install yuglify
   #####################
-  npm -g install yuglify 2>> $output_for_logs 
+  npm -g install yuglify 2>> $output_for_logs
 
   ################################
   # Setup Troposphere Project
   ################################
   BASEDIRECTORY=`pwd`
-  
+
   echo "Testing directory: $LOCATIONOFTROPOSPHERE/.git"
   if [ -d "$LOCATIONOFTROPOSPHERE/.git" ]; then
      echo "git repository already established. Pulling latest.."
@@ -66,6 +66,11 @@ main(){
   fi
 
   #Need jinja2
+  mkdir -p "$VIRTUAL_ENV_TROPOSHERE"
+  if [ ! -f "$VIRTUAL_ENV_TROPOSHERE/bin/activate" ]; then
+    virtualenv "$VIRTUAL_ENV_TROPOSHERE" 2>> $output_for_logs
+  fi
+
   source "$VIRTUAL_ENV_TROPOSHERE/bin/activate" 2>> $output_for_logs
   $VIRTUAL_ENV_TROPOSPHERE/bin/pip install -r $LOCATIONOFTROPOSPHERE/requirements.txt 2>> $output_for_logs
 

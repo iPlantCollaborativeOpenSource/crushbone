@@ -222,7 +222,6 @@ atmo_rebuild_jenkins() {
 tropo_rebuild_jenkins() {
     #TODO: Find out if we need to do anything special here..
     echo "Building Troposphere-Jenkins"
-    . src/15_troposphere_virtual_env.sh $tropo_virtualenv
     . src/16_troposphere_setup.sh $tropo_working_dir $tropo_virtualenv $tropo_files_dir $server_name $branch_name true
 }
 run_steps() {
