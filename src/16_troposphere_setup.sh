@@ -62,6 +62,11 @@ main(){
     cp "$LOCATIONOFTROPOSPHERELOCALFILE/variables.ini" "$LOCATIONOFTROPOSPHERE/troposphere/settings/variables.ini" 2>> $output_for_logs;
     sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFTROPOSPHERE/troposphere/settings/variables.ini" 2>> $output_for_logs
   fi
+
+  #Build config scripts
+  cd "$LOCATIONOFTROPOSPHERE"
+  ./scripts/generate_configs.py
+
   mkdir -p "$LOCATIONOFTROPOSPHERE/logs/"
   touch  "$LOCATIONOFTROPOSPHERE/logs/troposphere.log"
   chown -R www-data:www-data "$LOCATIONOFTROPOSPHERE"

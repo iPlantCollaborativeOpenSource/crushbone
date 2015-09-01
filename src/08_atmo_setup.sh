@@ -51,6 +51,10 @@ run_steps(){
     sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFATMOSPHERE/atmosphere/settings/variables.ini" 2>> $output_for_logs
   fi
 
+  # Build config scripts
+  cd "$LOCATIONOFATMOSPHERE"
+  ./scripts/generate_configs.py
+
   mkdir -p "$LOCATIONOFATMOSPHERE/extras/ssh/"
 
   if [ -e "$LOCATIONOFSETUPFILE/id_rsa" ]; then
