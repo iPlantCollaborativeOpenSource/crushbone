@@ -53,7 +53,7 @@ run_steps(){
 
   #Need jinja2 -- Install the requirements!
   source "$VIRTUAL_ENV_ATMOSPHERE/bin/activate" 2>> $output_for_logs
-  $VIRTUAL_ENV_ATMOSPHERE/bin/pip install -r requirements.txt 2>> $output_for_logs
+  $VIRTUAL_ENV_ATMOSPHERE/bin/pip install -r $LOCATIONOFATMOSPHERE/requirements.txt 2>> $output_for_logs
   # Build config scripts
   cd "$LOCATIONOFATMOSPHERE"
   ./scripts/generate_configs.py

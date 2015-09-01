@@ -66,7 +66,7 @@ main(){
 
   #Need jinja2
   source "$VIRTUAL_ENV_TROPOSHERE/bin/activate" 2>> $output_for_logs
-  $VIRTUAL_ENV_TROPOSPHERE/bin/pip install -r requirements.txt 2>> $output_for_logs
+  $VIRTUAL_ENV_TROPOSPHERE/bin/pip install -r $LOCATIONOFTROPOSPHERE/requirements.txt 2>> $output_for_logs
 
   #Build config scripts
   cd "$LOCATIONOFTROPOSPHERE"
