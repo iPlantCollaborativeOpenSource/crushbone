@@ -51,6 +51,9 @@ run_steps(){
     sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFATMOSPHERE/atmosphere/settings/variables.ini" 2>> $output_for_logs
   fi
 
+  #Need jinja2 -- Install the requirements!
+  source "$VIRTUAL_ENV_ATMOSPHERE/bin/activate" 2>> $output_for_logs
+  $VIRTUAL_ENV_ATMOSPHERE/bin/pip install -r requirements.txt 2>> $output_for_logs
   # Build config scripts
   cd "$LOCATIONOFATMOSPHERE"
   ./scripts/generate_configs.py

@@ -26,8 +26,6 @@ main(){
   fi
 
   source "$VIRTUAL_ENV_TROPOSHERE/bin/activate" 2>> $output_for_logs
-  #Need jinja2
-  $VIRTUAL_ENV_TROPOSPHERE/bin/pip install -r requirements.txt 2>> $output_for_logs
 }
 
 if [ "$#" -ne 1 ]; then

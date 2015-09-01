@@ -19,11 +19,12 @@ touch $output_for_logs
 main(){
 
   LOCATIONOFTROPOSPHERE=$1
-  LOCATIONOFTROPOSPHERELOCALFILE=$2
-  LOCATIONOFTROPOSPHEREKEY=$2
-  SERVERNAME=$3
-  BRANCH_NAME=$4
-  JENKINS_REBUILD=$5
+  VIRTUAL_ENV_TROPOSHERE=$2
+  LOCATIONOFTROPOSPHERELOCALFILE=$3
+  LOCATIONOFTROPOSPHEREKEY=$3
+  SERVERNAME=$4
+  BRANCH_NAME=$5
+  JENKINS_REBUILD=$6
 
   #####################
   ## Install yuglify
@@ -62,6 +63,10 @@ main(){
     cp "$LOCATIONOFTROPOSPHERELOCALFILE/variables.ini" "$LOCATIONOFTROPOSPHERE/troposphere/settings/variables.ini" 2>> $output_for_logs;
     sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFTROPOSPHERE/troposphere/settings/variables.ini" 2>> $output_for_logs
   fi
+
+  #Need jinja2
+  source "$VIRTUAL_ENV_TROPOSHERE/bin/activate" 2>> $output_for_logs
+  $VIRTUAL_ENV_TROPOSPHERE/bin/pip install -r requirements.txt 2>> $output_for_logs
 
   #Build config scripts
   cd "$LOCATIONOFTROPOSPHERE"
