@@ -222,7 +222,7 @@ atmo_rebuild_jenkins() {
 tropo_rebuild_jenkins() {
     #TODO: Find out if we need to do anything special here..
     echo "Building Troposphere-Jenkins"
-    . src/16_troposphere_setup.sh $tropo_working_dir $tropo_files_dir $server_name $branch_name true
+    . src/16_troposphere_setup.sh $tropo_working_dir $tropo_virtualenv $tropo_files_dir $server_name $branch_name true
 }
 run_steps() {
     #NOTE: The dependencies could be split out for tropo/atmo later on..
