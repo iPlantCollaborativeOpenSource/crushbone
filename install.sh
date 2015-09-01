@@ -193,7 +193,7 @@ build_atmosphere() {
     . ./src/06_atmo_virtual_env.sh $atmo_virtualenv
     ./src/07_atmo_git_clone.sh $atmo_working_dir $branch_name
     ./src/08_atmo_setup.sh $setup_files_dir $atmo_working_dir $atmo_logs_dir $atmo_virtualenv $server_name $db_name $db_user $db_pass
-    ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv
+    ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv $jenkins $test_only
     ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv
     . src/14_virtual_env_deactivate.sh
     ./src/18_atmo_setup_new_relic.sh $setup_files_dir $atmo_working_dir
@@ -211,7 +211,7 @@ atmo_rebuild_jenkins() {
     . ./src/06_atmo_virtual_env.sh $atmo_virtualenv
     #Jenkins already has the correct atmosphere settings, no overwrites
     #required
-    ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv
+    ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv $jenkins $test_only
     ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv
     #Jenkins already has the correct apache settings, no overwrites
     #required
