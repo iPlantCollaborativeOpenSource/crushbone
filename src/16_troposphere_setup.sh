@@ -57,25 +57,11 @@ main(){
 
   fi
 
-  #FIXME: Instead of testing for file existence, test mod time difference
-  if [[ ! -e "$LOCATIONOFTROPOSPHERE/troposphere/settings/local.py" ]]; then
-      #Troposphere settings missing! Make a copy of secrets, or a copy of dist
-      if [ -e "$LOCATIONOFTROPOSPHERELOCALFILE/local.py" ]; then
-        cp "$LOCATIONOFTROPOSPHERELOCALFILE/local.py" "$LOCATIONOFTROPOSPHERE/troposphere/settings/local.py" 2>> $output_for_logs;
-        sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFTROPOSPHERE/troposphere/settings/local.py" 2>> $output_for_logs
-      else
-        cp "$LOCATIONOFTROPOSPHERE/troposphere/settings/local.py.dist" "$LOCATIONOFTROPOSPHERE/troposphere/settings/local.py"
-        sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFTROPOSPHERE/troposphere/settings/local.py" 2>> $output_for_logs
-      fi
+  if [ -e "$LOCATIONOFTROPOSPHERELOCALFILE/variables.ini" ] && [ ! -f "$LOCATIONOFTROPOSPHERE/troposphere/settings/variables.ini" ]; then
+    echo "Command: cp $LOCATIONOFTROPOSPHERELOCALFILE/variables.ini $LOCATIONOFTROPOSPHERE/troposphere/settings/variables.ini" >> $output_for_logs
+    cp "$LOCATIONOFTROPOSPHERELOCALFILE/variables.ini" "$LOCATIONOFTROPOSPHERE/troposphere/settings/variables.ini" 2>> $output_for_logs;
+    sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFTROPOSPHERE/troposphere/settings/variables.ini" 2>> $output_for_logs
   fi
-  #FIXME: Probably need to change some of these 'local.py' values based on what
-  #       we know about the server already.
-
-  #if [ -e "$LOCATIONOFTROPOSPHEREKEY/troposhere.key" ]; then
-  #  cp $LOCATIONOFTROPOSPHEREKEY/troposhere.key $LOCATIONOFTROPOSPHERE 2>> $output_for_logs;
-  #else
-  #  echo "Need to generate a groupy key and place it in the $LOCATIONOFTROPOSPHERE directory." 2>> $output_for_logs;
-  #fi
   mkdir -p "$LOCATIONOFTROPOSPHERE/logs/"
   touch  "$LOCATIONOFTROPOSPHERE/logs/troposphere.log"
   chown -R www-data:www-data "$LOCATIONOFTROPOSPHERE"
