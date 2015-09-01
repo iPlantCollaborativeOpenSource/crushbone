@@ -19,7 +19,7 @@ touch $output_for_logs
 main(){
 
   LOCATIONOFTROPOSPHERE=$1
-  VIRTUAL_ENV_TROPOSHERE=$2
+  VIRTUAL_ENV_TROPOSPHERE=$2
   LOCATIONOFTROPOSPHERELOCALFILE=$3
   LOCATIONOFTROPOSPHEREKEY=$3
   SERVERNAME=$4
@@ -66,13 +66,14 @@ main(){
   fi
 
   #Need jinja2
-  mkdir -p "$VIRTUAL_ENV_TROPOSHERE"
-  if [ ! -f "$VIRTUAL_ENV_TROPOSHERE/bin/activate" ]; then
-    virtualenv "$VIRTUAL_ENV_TROPOSHERE" 2>> $output_for_logs
+  mkdir -p "$VIRTUAL_ENV_TROPOSPHERE"
+  if [ ! -f "$VIRTUAL_ENV_TROPOSPHERE/bin/activate" ]; then
+    virtualenv "$VIRTUAL_ENV_TROPOSPHERE" 2>> $output_for_logs
   fi
+  echo "V_ENV=$VIRTUAL_ENV_TROPOSPHERE"
 
-  source "$VIRTUAL_ENV_TROPOSHERE/bin/activate" 2>> $output_for_logs
-  $VIRTUAL_ENV_TROPOSPHERE/bin/pip install -r $LOCATIONOFTROPOSPHERE/requirements.txt 2>> $output_for_logs
+  source "$VIRTUAL_ENV_TROPOSPHERE/bin/activate" 2>> $output_for_logs
+  pip install -r $LOCATIONOFTROPOSPHERE/requirements.txt 2>> $output_for_logs
 
   #Build config scripts
   echo "PATH=$PATH"
