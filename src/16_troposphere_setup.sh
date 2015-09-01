@@ -69,6 +69,8 @@ main(){
   $VIRTUAL_ENV_TROPOSPHERE/bin/pip install -r $LOCATIONOFTROPOSPHERE/requirements.txt 2>> $output_for_logs
 
   #Build config scripts
+  echo "PATH=$PATH"
+  echo "`pip freeze`"
   cd "$LOCATIONOFTROPOSPHERE"
   ./scripts/generate_configs.py
 
