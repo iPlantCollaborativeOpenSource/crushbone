@@ -55,7 +55,14 @@ main(){
      else
         git clone https://github.com/iPlantCollaborativeOpenSource/troposphere.git "$LOCATIONOFTROPOSPHERE" 2>> $output_for_logs
      fi
-
+     if [ ! -d "$LOCATIONOFTROPOSPHERE/troposphere" ]; then
+         echo "Attempt #2 - Clone FAILED! Use the existing repo for help."
+         git init
+         git remote add origin https://github.com/iPlantCollaborativeOpenSource/troposphere.git
+         git fetch
+         git branch incana-incana origin/incana-incana
+         git checkout incana-incana
+     fi
   fi
 
   echo "Testing file: $LOCATIONOFTROPOSPHERELOCALFILE/variables.ini"
