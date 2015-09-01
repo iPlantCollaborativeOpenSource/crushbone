@@ -209,8 +209,7 @@ atmo_rebuild_jenkins() {
     #Jenkins already has postgresql setup properly
     #Jenkins already has atmosphere cloned in the correct workspace
     . ./src/06_atmo_virtual_env.sh $atmo_virtualenv
-    #Jenkins already has the correct atmosphere settings, no overwrites
-    #required
+    ./src/08_atmo_setup.sh $setup_files_dir $atmo_working_dir $atmo_logs_dir $atmo_virtualenv $server_name $db_name $db_user $db_pass
     ./src/09_pip_install_atmo_requirements.sh $atmo_working_dir $atmo_virtualenv $jenkins $test_only
     ./src/10_atmo_python_db_migrations.sh $atmo_working_dir $atmo_virtualenv
     #Jenkins already has the correct apache settings, no overwrites
