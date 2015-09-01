@@ -58,6 +58,7 @@ main(){
 
   fi
 
+  echo "Testing file: $LOCATIONOFTROPOSPHERELOCALFILE/variables.ini"
   if [ -e "$LOCATIONOFTROPOSPHERELOCALFILE/variables.ini" ] && [ ! -f "$LOCATIONOFTROPOSPHERE/variables.ini" ]; then
     echo "Command: cp $LOCATIONOFTROPOSPHERELOCALFILE/variables.ini $LOCATIONOFTROPOSPHERE/variables.ini" >> $output_for_logs
     cp "$LOCATIONOFTROPOSPHERELOCALFILE/variables.ini" "$LOCATIONOFTROPOSPHERE/variables.ini" 2>> $output_for_logs;
