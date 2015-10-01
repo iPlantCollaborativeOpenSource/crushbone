@@ -56,8 +56,11 @@ run_steps(){
   source "$VIRTUAL_ENV_ATMOSPHERE/bin/activate" 2>> $output_for_logs
   $VIRTUAL_ENV_ATMOSPHERE/bin/pip install -r $LOCATIONOFATMOSPHERE/requirements.txt 2>> $output_for_logs
   # Build config scripts
+  BASEDIRECTORY=`pwd`
   cd "$LOCATIONOFATMOSPHERE"
   ./scripts/generate_configs.py
+  #GO back!
+  cd "$BASEDIRECTORY"
 
   mkdir -p "$LOCATIONOFATMOSPHERE/extras/ssh/"
 

@@ -81,6 +81,9 @@ main(){
   cd "$LOCATIONOFTROPOSPHERE"
   ./scripts/generate_configs.py
 
+  # GO BACK
+  cd "$BASEDIRECTORY"
+
   mkdir -p "$LOCATIONOFTROPOSPHERE/logs/"
   touch  "$LOCATIONOFTROPOSPHERE/logs/troposphere.log"
   chown -R www-data:www-data "$LOCATIONOFTROPOSPHERE"
