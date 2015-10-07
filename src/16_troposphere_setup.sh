@@ -58,12 +58,9 @@ main(){
 
   fi
 
-  echo "Testing file: $LOCATIONOFTROPOSPHERELOCALFILE/variables.ini"
-  if [ -e "$LOCATIONOFTROPOSPHERELOCALFILE/variables.ini" ] && [ ! -f "$LOCATIONOFTROPOSPHERE/variables.ini" ]; then
-    echo "Command: cp $LOCATIONOFTROPOSPHERELOCALFILE/variables.ini $LOCATIONOFTROPOSPHERE/variables.ini" >> $output_for_logs
-    cp "$LOCATIONOFTROPOSPHERELOCALFILE/variables.ini" "$LOCATIONOFTROPOSPHERE/variables.ini" 2>> $output_for_logs;
-    sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFTROPOSPHERE/variables.ini" 2>> $output_for_logs
-  fi
+  echo "Command: cp $LOCATIONOFTROPOSPHERELOCALFILE/variables.ini $LOCATIONOFTROPOSPHERE/variables.ini" >> $output_for_logs
+  cp "$LOCATIONOFTROPOSPHERELOCALFILE/variables.ini" "$LOCATIONOFTROPOSPHERE/variables.ini" 2>> $output_for_logs;
+  sed -i "s/SERVERNAME/$SERVERNAME/g" "$LOCATIONOFTROPOSPHERE/variables.ini" 2>> $output_for_logs
 
   #Need jinja2
   mkdir -p "$VIRTUAL_ENV_TROPOSPHERE"
