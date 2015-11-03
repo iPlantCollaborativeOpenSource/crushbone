@@ -76,7 +76,10 @@ main(){
   echo "PATH=$PATH"
   echo "`pip freeze`"
   cd "$LOCATIONOFTROPOSPHERE"
-  ./scripts/generate_configs.py
+
+  ./scripts/generate_configs.py  # This is true for builds pre-Jamming
+
+  ./configure  # Use this for builds post-jamming junglefowl
 
   # GO BACK
   cd "$BASEDIRECTORY"
