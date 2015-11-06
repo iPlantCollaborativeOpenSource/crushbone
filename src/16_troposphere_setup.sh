@@ -70,7 +70,7 @@ main(){
   echo "V_ENV=$VIRTUAL_ENV_TROPOSPHERE"
 
   source "$VIRTUAL_ENV_TROPOSPHERE/bin/activate" 2>> $output_for_logs
-  pip install -r $LOCATIONOFTROPOSPHERE/requirements.txt 2>> $output_for_logs
+  pip install -r $LOCATIONOFTROPOSPHERE/dev_requirements.txt 2>> $output_for_logs
 
   #Build config scripts
   echo "PATH=$PATH"
